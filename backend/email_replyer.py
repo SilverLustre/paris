@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
 
-openai.api_key = "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"
+openai.api_key = ""
 
 class EmailItem(BaseModel):
     content: str

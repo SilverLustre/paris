@@ -2,7 +2,7 @@ import openai
 from typing import Union
 from fastapi import FastAPI
 
-openai.api_key = "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"
+openai.api_key = ""
 
 class ArticleGenerator:
 
