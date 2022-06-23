@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Paris</title>
+        <!-- <link rel="stylesheet" href="..\css\style.css"> -->
+        <link rel="stylesheet" href="\frontend\css\style.css">
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Paris</h1>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Navigator -->
+                <div class="col-2">Function Select</div>
+                <div class="col-10">
+                    <select name="" id="funcSelect">
+                        <option value="textGeneration">Text Generation</option>
+                        <option value="summerization">Summerization</option>
+                        <option value="paraphrase">Paraphrase</option>
+                        <option value="replyToEmail">Reply to Email</option>
+                        <option value="translation">Translation</option>
+                    </select>
+                </div>
+            </div>
+            <h2>Make your prompts</h2>
+            <div class="row">
+                <div class="col-6"><h3>Configurations</h3></div>
+                <div class="col-6"><h3>Model Parameters</h3></div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <!-- Configurations -->
+                    <div class="row">
+                        <div class="col-4">Text Type</div>
+                        <div class="col-8">
+                            <input type="text" list="textTypeList" class="circleTextInput">
+                            <datalist id="textTypeList">
+                                <option>Blog Post</option>
+                                <option>Email</option>
+                                <option>Social Media</option>
+                                <option>Website Content</option>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Tone</div>
+                        <div class="col-8">
+                            <input type="text" list="toneList" class="circleTextInput">
+                            <datalist id="toneList">
+                                <option>Professional</option>
+                                <option>Casual</option>
+                                <option>Happy</option>
+                                <option>Sad</option>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Target Audience</div>
+                        <div class="col-8">
+                            <input type="text" class="circleTextInput">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Keywords</div>
+                        <div class="col-8">
+                            <input type="text" class="circleTextInput">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Number of Subtitles</div>
+                        <div class="col-8">
+                            <input type="text" class="circleTextInput">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Topic</div>
+                        <div class="col-8">
+                            <textarea name="" id="topicTextarea" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <!-- Model Parameters -->
+                    <div class="row">
+                        <div class="col-4">Model</div>
+                        <div class="col-8">
+                            <select name="" id="sSelect" class="circleTextInput">
+                                <option value="text-davinci-002">text-davinci-002</option>
+                                <option value="text-curie-001">text-curie-001</option>
+                                <option value="text-babbage-001">text-babbage-001</option>
+                                <option value="text-ada-001">text-ada-001</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Model</div>
+                        <div class="col-8">
+                            <input type="text" list="modelList" class="circleTextInput">
+                            <datalist id="modelList">
+                                <option>text-davinci-002</option>
+                                <option>text-curie-001</option>
+                                <option>text-babbage-001</option>
+                                <option>text-ada-001</option>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Max Token</div>
+                        <div class="col-8">
+                            <input type="text" class="circleTextInput">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">Temperature</div>
+                        <div class="col-8">
+                            <input type="text" class="circleTextInput">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
