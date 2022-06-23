@@ -3,10 +3,30 @@ body {
     margin: 0;
   }
 
+  .circleButton {
+    padding:0.5em;
+    border-radius:15px;
+
+  }
+
   .circleTextInput {
     width: 80%;
     padding:0.5em;
     border-radius:15px;
+  }
+
+  .circleSelect {
+    width: 80%;
+    padding:0.5em;
+    border-radius:15px;
+    border-width: 2px
+  }
+
+  .circleTextarea {
+    width: 80%;
+    padding:0.5em;
+    border-radius:15px;
+    border-width: 2px
   }
   
   .container {
@@ -20,7 +40,7 @@ body {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    /* align-items: center; */
   }
   
   .col-1 {
@@ -73,29 +93,8 @@ body {
     box-sizing: border-box;
   }
   
-  #main {
-  }
-  
-  #left {
-    /* background-color: blue; */
-  }
-  
-  #middle {
-    /* background-color: red; */
-  }
-  
-  #right {
-    /* background-color: green; */
-  }
-  
   #funcSelect{
     width: 32%;
-    padding:0.5em;
-    border-radius:15px;
-  }
-
-  #topicTextarea{
-    width: 80%;
     padding:0.5em;
     border-radius:15px;
   }
