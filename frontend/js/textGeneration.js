@@ -1,3 +1,6 @@
+// Title Block
+
+// Configurations Block
 var textTypeClrBt = document.getElementById("textTypeClrBt");
 textTypeClrBt.onclick = function(){
     document.getElementById("textTypeInput").value = '';
@@ -22,3 +25,7 @@ var topicTextareaClrBt = document.getElementById("topicTextareaClrBt");
 topicTextareaClrBt.onclick = function(){
     document.getElementById("topicTextarea").value = '';
 }
+
+// Model Parameters Block
+
+// Prompt Block

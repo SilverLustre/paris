@@ -60,3 +60,38 @@ http://localhost:8000/reply
     presence_penalty: float = 0
 ### output:
     {'data': }
+
+
+## GenerateSubtitles:
+http://localhost:8000/genSubs
+### Input:
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 1000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
+    prompt: str = "write a ...."
+
+### output:
+    {'subtitles': ["title1", "title2", ...]}
+
+## SubtitlesToArticle:
+http://localhost:8000/subsToArticle
+### Input:
+    text_type: str = "Blog Post"
+    tone: str = "professional"
+    target_audience = "Australian"
+    keywords = ["apple", "banana"]
+    number_of_subtitles: int = 5
+    topic: str = "seniors love to eat ice cream"
+
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 1000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
+    prompt: str = "write a ..."
+    subtitle: str = ["title1", "title2", ...]
+
+### output:
+    {'article': "This is a generated article..."}
