@@ -65,12 +65,12 @@ http://localhost:8000/reply
 ## GenerateSubtitles:
 http://localhost:8000/genSubs
 ### Input:
+    prompt: str = "write a ...."
     engine: str = "text-davinci-002"
     temperature: float = 1
     max_tokens: int = 1000
     frequency_penalty: float = 0
     presence_penalty: float = 0
-    prompt: str = "write a ...."
 
 ### output:
     {'subtitles': ["title1", "title2", ...]}
@@ -91,7 +91,7 @@ http://localhost:8000/subsToArticle
     frequency_penalty: float = 0
     presence_penalty: float = 0
     prompt: str = "write a ..."
-    subtitle: str = ["title1", "title2", ...]
+    subtitles: str = ["title1", "title2", ...]
 
 ### output:
     {'article': "This is a generated article..."}
