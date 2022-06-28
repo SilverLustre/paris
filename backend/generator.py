@@ -9,6 +9,19 @@ import re
 
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 
+origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost",
+    "http://localhost:8080"
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class Item(BaseModel):
     prompt: str
     engine: str = "text-davinci-002"
@@ -18,19 +31,20 @@ class Item(BaseModel):
     presence_penalty: float = 0
 
 class ArticleItem(BaseModel):
-    text_type: str
+    subtitles: list = []
+    prompt: str = None
+    article_type: str = "article"
+    topic: str = None
     tone: str = None
     audience: str = None
     keywords: str = None
-    number_of_subtitles: int
-    topic: str
+    num_subtitles: int = 5
     engine: str = "text-davinci-002"
     temperature: float = 1
     max_tokens: int = 2000
     frequency_penalty: float = 0
     presence_penalty: float = 0
-    prompt: str
-    subtitles: list = []
+
 
 
 class SubtitleGenerator:
@@ -67,10 +81,11 @@ class SubtitleGenerator:
 
 class ArticleGenerator:
 
-    def __init__(self, article_type=None, topic=None, tone = None, audience = None,
+    def __init__(self, subtitles, prompt=None, article_type=None, topic=None, tone = None, audience = None,
                  keywords = None, num_subtitles=5,engine = "text-davinci-002",
-                 temperature=1, max_tokens=2000,frequency_penalty=0,presence_penalty=0,
-                 prompt=None, subtitles=None):
+                 temperature=1, max_tokens=2000,frequency_penalty=0,presence_penalty=0):
+        self.subtitles = subtitles
+        self.prompt = prompt
         self.article_type = article_type
         self.topic = topic
         self.tone = tone
@@ -82,8 +97,7 @@ class ArticleGenerator:
         self.max_tokens = max_tokens
         self.frequency_penalty = frequency_penalty
         self.presence_penalty = presence_penalty
-        self.prompt = prompt
-        self.subtitles = subtitles
+
 
 
     def expandSubtitle(self):
@@ -100,8 +114,10 @@ class ArticleGenerator:
                     frequency_penalty=self.frequency_penalty,
                     presence_penalty=self.presence_penalty
                 )
+                article+=subtitle
+                article+='\n'
                 article+=response['choices'][0]['text']
-                article+='/n'
+                article+='\n'
         return article
 
 app = FastAPI()
@@ -113,10 +129,10 @@ async def createItem(item:Item):
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ':'),ensure_ascii=False)
     return jsondata
 
-@app.post("generate/article")
+@app.post("/substoarticle")
 async def createItem(item:ArticleItem):
-    generator = ArticleGenerator(item.subtitles,item.article_type, item.topic, item.tone, item.audience, item.keywords, item.num_subtitles, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
-    jsontext = {'data': generator.expandSubtitle()}
+    generator = ArticleGenerator(item.subtitles,item.prompt,item.article_type, item.topic, item.tone, item.audience, item.keywords, item.num_subtitles, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
+    jsontext = {'article': generator.expandSubtitle()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ':'),ensure_ascii=False)
     return jsondata
 
