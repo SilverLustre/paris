@@ -77,18 +77,23 @@ class ArticleGenerator:
         return res_split
 
 
-    def expandSubtitle(self,subtitle):
-        prompt = self.generatePrompt(subtitle)
-        response = openai.Completion.create(
-            engine=self.engine,
-            prompt=prompt,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-            top_p=1,
-            frequency_penalty=self.frequency_penalty,
-            presence_penalty=self.presence_penalty
-        )
-        return response['choices'][0]['text']
+    def expandSubtitle(self):
+        article = ""
+        for subtitle in self.subtitles:
+            if subtitle!="":
+                prompt = self.generatePrompt(subtitle)
+                response = openai.Completion.create(
+                    engine=self.engine,
+                    prompt=prompt,
+                    temperature=self.temperature,
+                    max_tokens=self.max_tokens,
+                    top_p=1,
+                    frequency_penalty=self.frequency_penalty,
+                    presence_penalty=self.presence_penalty
+                )
+                article+=response['choices'][0]['text']
+                article+='/n'
+        return article
 
 app = FastAPI()
 
@@ -96,24 +101,15 @@ app = FastAPI()
 async def createItem(item:Item):
     generator = ArticleGenerator(item.article_type, item.topic, item.tone, item.audience, item.keywords, item.num_subtitles, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': generator.generateSubtitles()}
-    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '))
+    jsondata = json.dumps(jsontext,indent=4,separators=(',', ':'),ensure_ascii=False)
     return jsondata
 
 @app.post("generate/article")
-async def createItem(item:Item):
-
+async def createItem(item:ArticleItem):
+    generator = ArticleGenerator(item.subtitles,item.article_type, item.topic, item.tone, item.audience, item.keywords, item.num_subtitles, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
+    jsontext = {'data': generator.expandSubtitle()}
+    jsondata = json.dumps(jsontext,indent=4,separators=(',', ':'),ensure_ascii=False)
+    return jsondata
 
 if __name__ == '__main__':
     uvicorn.run(app)
-
-article_generator = ArticleGenerator("blog post", "wildlife protection")
-subtitles = article_generator.generateSubtitles()
-print(subtitles)
-article = ""
-for subtitle in subtitles:
-    if subtitle!='':
-        article+=subtitle
-        article+='/n'
-        article+=article_generator.expandSubtitle(subtitle)
-        article+='/n'
-print(article)
