@@ -10,9 +10,11 @@
     <body>
         <div class="container">
             <div class="row">
+                <!-- Left Block -->
                 <div class="col-6">
-                    <!-- left -->
-                    <div class="row">
+
+                    <!-- Title Block -->
+                    <div class="row" id="titleBlock">
                         <div class="col-4">
                             <h1>Paris</h1>
                         </div>
@@ -20,177 +22,198 @@
                             <h4>Service Status:</h4>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4">API Key</div>
-                        <div class="col-8">
-                            <input type="text" class="circleTextInput" autocomplete="on">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Function Select</div>
-                        <div class="col-8">
-                            <select name="" id="funcSelect2" class="circleSelect">
-                                <option value="textGeneration">Text Generation</option>
-                                <option value="summerization">Summerization</option>
-                                <option value="paraphrase">Paraphrase</option>
-                                <option value="replyToEmail">Reply to Email</option>
-                                <option value="translation">Translation</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row-12"><h3>Configurations</h3></div>
-                    <!-- Configurations -->
-                    <div class="row">
-                        <div class="col-4">Text Type</div>
-                        <div class="col-8">
-                            <input type="text" list="textTypeList" class="circleTextInput" id="textTypeInput">
-                            <datalist id="textTypeList">
-                                <option>Blog Post</option>
-                                <option>Email</option>
-                                <option>Social Media</option>
-                                <option>Website Content</option>
-                            </datalist>
-                            <button class="circleButton" id="textTypeClrBt">Clear</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Tone</div>
-                        <div class="col-8">
-                            <input type="text" list="toneList" class="circleTextInput" id="toneInput">
-                            <datalist id="toneList">
-                                <option>Appreciative</option>
-                                <option>Assertive</option>
-                                <option>Awestruck</option>
-                                <option>Candid</option>
-                                <option>Casual</option>
-                                <option>Cautionary</option>
-                                <option>Compassionate</option>
-                                <option>Convincing</option>
-                                <option>Critical</option>
-                                <option>Earnest</option>
-                                <option>Enthusiastic</option>
-                                <option>Formal</option>
-                                <option>Funny</option>
-                                <option>Happy</option>
-                                <option>Humble</option>
-                                <option>Humorous</option>
-                                <option>Informative</option>
-                                <option>Inspirational</option>
-                                <option>Joyful</option>
-                                <option>Passionate</option>
-                                <option>Professional</option>
-                                <option>Sad</option>
-                                <option>Sincere</option>
-                                <option>Thoughtful</option>
-                                <option>Urgent</option>
-                                <option>Worried</option>
-                            </datalist>
-                            <button class="circleButton" id="toneClrBt">Clear</button>
 
+                    <!-- Head Function Block -->
+                    <div class="row" id="headFuncBlock">
+                        <div class="row">
+                            <div class="col-4">API Key</div>
+                            <div class="col-8">
+                                <input type="text" class="circleTextInput" autocomplete="on" id="apiKeyInput">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Function Select</div>
+                            <div class="col-8">
+                                <select name="" id="funcSelect" class="circleSelect">
+                                    <option value="textGeneration">Text Generation</option>
+                                    <option value="summerization">Summerization</option>
+                                    <option value="paraphrase">Paraphrase</option>
+                                    <option value="replyToEmail">Reply to Email</option>
+                                    <option value="translation">Translation</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4">Target Audience</div>
-                        <div class="col-8">
-                            <input type="text" class="circleTextInput" id="targetAudienceInput">
-                            <button class="circleButton" id="targetAudienceClrBt">Clear</button>
+
+                    <!-- Configurations Block-->
+                    <div class="row" id="configsBlock">
+                        <div class="row-12"><h3>Configurations</h3></div>
+                        <div class="row">
+                            <div class="col-4">Text Type</div>
+                            <div class="col-8">
+                                <input type="text" list="textTypeList" class="circleTextInput" id="textTypeInput">
+                                <datalist id="textTypeList">
+                                    <option>Blog Post</option>
+                                    <option>Email</option>
+                                    <option>Social Media</option>
+                                    <option>Website Content</option>
+                                </datalist>
+                                <button class="circleButton" id="textTypeClrBt">Clear</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Tone</div>
+                            <div class="col-8">
+                                <input type="text" list="toneList" class="circleTextInput" id="toneInput">
+                                <datalist id="toneList">
+                                    <option>Appreciative</option>
+                                    <option>Assertive</option>
+                                    <option>Awestruck</option>
+                                    <option>Candid</option>
+                                    <option>Casual</option>
+                                    <option>Cautionary</option>
+                                    <option>Compassionate</option>
+                                    <option>Convincing</option>
+                                    <option>Critical</option>
+                                    <option>Earnest</option>
+                                    <option>Enthusiastic</option>
+                                    <option>Formal</option>
+                                    <option>Funny</option>
+                                    <option>Happy</option>
+                                    <option>Humble</option>
+                                    <option>Humorous</option>
+                                    <option>Informative</option>
+                                    <option>Inspirational</option>
+                                    <option>Joyful</option>
+                                    <option>Passionate</option>
+                                    <option>Professional</option>
+                                    <option>Sad</option>
+                                    <option>Sincere</option>
+                                    <option>Thoughtful</option>
+                                    <option>Urgent</option>
+                                    <option>Worried</option>
+                                </datalist>
+                                <button class="circleButton" id="toneClrBt">Clear</button>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Target Audience</div>
+                            <div class="col-8">
+                                <input type="text" class="circleTextInput" id="targetAudienceInput">
+                                <button class="circleButton" id="targetAudienceClrBt">Clear</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Keywords</div>
+                            <div class="col-8">
+                                <input type="text" class="circleTextInput" id="keywordsInput">
+                                <button class="circleButton" id="keywordsClrBt">Clear</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Number of Subtitles</div>
+                            <div class="col-8">
+                                <input type="number" min="0" value="5" class="circleTextInput" id="numOfSubsInput">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Topic</div>
+                            <div class="col-8">
+                                <textarea name="" id="topicTextarea" cols="30" rows="4" class="circleTextarea"></textarea>
+                                <button class="circleButton" id="topicTextareaClrBt">Clear</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4">Keywords</div>
-                        <div class="col-8">
-                            <input type="text" class="circleTextInput" id="keywordsInput">
-                            <button class="circleButton" id="keywordsClrBt">Clear</button>
+
+                    
+                    <!-- Model Parameters Block -->
+                    <div class="row" id="modelParamsBlock">
+                        <div class="col-12"><h3>Model Parameters</h3></div>
+                        <div class="row">
+                            <div class="col-4">Model</div>
+                            <div class="col-8">
+                                <select name="" id="modelSelect" class="circleSelect">
+                                    <option value="text-davinci-002">text-davinci-002</option>
+                                    <option value="text-curie-001">text-curie-001</option>
+                                    <option value="text-babbage-001">text-babbage-001</option>
+                                    <option value="text-ada-001">text-ada-001</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Number of Subtitles</div>
-                        <div class="col-8">
-                            <input type="number" min="0" value="5" class="circleTextInput">
+                        <div class="row">
+                            <div class="col-4">Max Token</div>
+                            <div class="col-8">
+                                <input type="number" min="0" max="4000" value="300" class="circleTextInput" id="maxTokenInput">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Topic</div>
-                        <div class="col-8">
-                            <textarea name="" id="topicTextarea" cols="30" rows="4" class="circleTextarea"></textarea>
-                            <button class="circleButton" id="topicTextareaClrBt">Clear</button>
+                        <div class="row">
+                            <div class="col-4">Temperature</div>
+                            <div class="col-8">
+                                <input type="number" step="0.01" min="0" max="1" value="1" class="circleTextInput" id="tempInput">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12"><h3>Model Parameters</h3></div>
-                    <!-- Model Parameters -->
-                    <div class="row">
-                        <div class="col-4">Model</div>
-                        <div class="col-8">
-                            <select name="" id="modelSelect" class="circleSelect">
-                                <option value="text-davinci-002">text-davinci-002</option>
-                                <option value="text-curie-001">text-curie-001</option>
-                                <option value="text-babbage-001">text-babbage-001</option>
-                                <option value="text-ada-001">text-ada-001</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-4">Presence Penalty</div>
+                            <div class="col-8">
+                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="presencePenaltyInput">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Max Token</div>
-                        <div class="col-8">
-                            <input type="number" min="0" max="4000" value="300" class="circleTextInput">
+                        <div class="row">
+                            <div class="col-4">Frequency Penalty</div>
+                            <div class="col-8">
+                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="freqPenaltyInput">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Temperature</div>
-                        <div class="col-8">
-                            <input type="number" step="0.01" min="0" max="1" value="1" class="circleTextInput">
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="circleButton" id="modelParamsGenPromptBt">Generate Prompt</button>
+                                <button class="circleButton" id="modelParamsGenArticleBt">Generate Article</button>
+                            </div>
                         </div>
+                        <div class="col-12"><h3>Prompt</h3></div>
                     </div>
-                    <div class="row">
-                        <div class="col-4">Presence Penalty</div>
-                        <div class="col-8">
-                            <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">Frequency Penalty</div>
-                        <div class="col-8">
-                            <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <button class="circleButton">Generate Prompt</button>
-                            <button class="circleButton">Generate Article</button>
-                        </div>
-                    </div>
-                    <div class="col-12"><h3>Prompt</h3></div>
-                    <!-- Prompt -->
-                    <textarea name="" id="promptTextarea" cols="30" rows="7" class="circleTextarea"></textarea>
-                    <div class="row">
-                        <div class="col-11">
-                            <button class="circleButton">Copy</button>
-                            <button class="circleButton">Clear</button>
-                            <button class="circleButton">Generate Subtitles</button>
-                            <button class="circleButton">Generate Article</button>
+                    
+                    <!-- Prompt Block-->
+                    <div class="row" id="promptBlock">
+                        <textarea name="" id="promptTextarea" cols="30" rows="7" class="circleTextarea"></textarea>
+                        <div class="row">
+                            <div class="col-11">
+                                <button class="circleButton" id="promptCpBt">Copy</button>
+                                <button class="circleButton" id="promptClrBt">Clear</button>
+                                <button class="circleButton" id="promptGenSubsBt">Generate Subtitles</button>
+                                <button class="circleButton" id="promptGenArticleBt">Generate Article</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Right Block -->
                 <div class="col-6">
-                    <!-- right -->
-                    <div class="col-12"><h3>Subtitles</h3></div>
-                    <!-- Subtitles -->
-                    <textarea name="" id="subtitlesTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
-                    <div class="row">
-                        <div class="col-12">
-                            <button class="circleButton">Copy</button>
-                            <button class="circleButton">Clear</button>
-                            <button class="circleButton">Generate Article</button>
+                    
+                    <!-- Subtitles Block -->
+                    <div class="row" id="subtitlesBlock">
+                        <div class="col-12"><h3>Subtitles</h3></div>
+                        <textarea name="" id="subtitlesTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="circleButton" id="subsCpBt">Copy</button>
+                                <button class="circleButton" id="subsClrBt">Clear</button>
+                                <button class="circleButton" id="subsGenArticleBt">Generate Article</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12"><h3>Result</h3></div>
-                    <!-- Result -->
-                    <textarea name="" id="generationResultTextarea" cols="30" rows="25" class="circleTextarea"></textarea>
-                    <div class="row">
-                        <div class="col-12">
-                            <button class="circleButton">Copy</button>
-                            <button class="circleButton">Clear</button>
-                        </div>                    
+                    
+                    <!-- Result Block -->
+                    <div class="row" id="resultBlock">
+                        <div class="col-12"><h3>Result</h3></div>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea"></textarea>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="circleButton" id="genResultCpBt">Copy</button>
+                                <button class="circleButton" id="genResultClrBt">Clear</button>
+                            </div>                    
+                        </div>
                     </div>
                 </div>
             </div>

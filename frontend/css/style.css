@@ -92,12 +92,6 @@ body {
   * {
     box-sizing: border-box;
   }
-  
-  #funcSelect{
-    width: 32%;
-    padding:0.5em;
-    border-radius:15px;
-  }
 
   #topicTextarea{
     width: 80%;
