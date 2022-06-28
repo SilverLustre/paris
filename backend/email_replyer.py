@@ -10,7 +10,7 @@ import os
 # load_dotenv(find_dotenv('.env'))
 # env_dist = os.environ
 # print(env_dist.get('OPENAI_API_KEY'))
-openai.api_key = ""
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 
 app = FastAPI()
