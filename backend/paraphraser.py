@@ -56,7 +56,7 @@ class Paraphaser:
 async def createItem(item:Item):
     paraphaser = Paraphaser(item.content, item.tone, item.audience, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': paraphaser.paraphase()}
-    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '))
+    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)
     return jsondata
 
 

@@ -56,7 +56,7 @@ class Summarizer:
 async def createItem(item:Item):
     summarizer = Summarizer(item.content, item.tone, item.audience, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': summarizer.summarize()}
-    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '))
+    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)
     return jsondata
 
 

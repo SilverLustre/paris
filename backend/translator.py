@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import uvicorn
 import json
 
-openai.api_key = ""
+openai.api_key = "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"
 
 app = FastAPI()
 
@@ -28,7 +28,7 @@ class Translator:
     frequency_penalty: float
     presence_penalty: float
 
-    def __init__(text, target_language, engine = "text-davinci-002",
+    def __init__(self, text, target_language, engine = "text-davinci-002",
                  temperature=1, max_tokens=1000,frequency_penalty=0,presence_penalty=0):
         self.text = text
         self.target_language = target_language
@@ -40,7 +40,7 @@ class Translator:
 
 
     def translate(self):
-        prompt="Convert the following text to {}. Text: {}.".format(target_language, text)
+        prompt="Convert the following text to {}. Text: {}.".format(self.target_language, self.text)
         response = openai.Completion.create(
             engine=self.engine,
             prompt=prompt,
@@ -57,7 +57,7 @@ class Translator:
 async def createItem(item:Item):
     translator = Translator(item.content, item.language, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': translator.translate()}
-    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '))
+    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)
     return jsondata
 
 
