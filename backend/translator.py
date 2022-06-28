@@ -4,10 +4,24 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
 import json
+from fastapi.middleware.cors import CORSMiddleware
+import os
 
-openai.api_key = "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"
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 app = FastAPI()
+origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost",
+    "http://localhost:8080"
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Item(BaseModel):
     content: str
