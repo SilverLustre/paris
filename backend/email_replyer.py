@@ -17,24 +17,40 @@ app = FastAPI()
 
 class EmailItem(BaseModel):
     content: str
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 1000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
 
 
 class EmailReplyer():
     email_content: str
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 1000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
 
-    def __init__(self, email_content):
+    def __init__(self, email_content, engine = "text-davinci-002",temperature=1,
+                 max_tokens=1000,frequency_penalty=0,presence_penalty=0):
         self.email_content = email_content
+        engine: str = "text-davinci-002"
+        temperature: float = 1
+        max_tokens: int = 1000
+        frequency_penalty: float = 0
+        presence_penalty: float = 0
 
     def reply(self):
         response = openai.Completion.create(
-            engine="text-davinci-002",
+            engine=self.engine,
             prompt="Respond to the following email text: {}. Response:".format(self.email_content),
-            temperature=0.7,
-            max_tokens=100,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
             top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-            )
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty
+        )
         print(response['choices'][0]['text'])
         return response['choices'][0]['text']
 
