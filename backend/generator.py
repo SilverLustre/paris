@@ -8,18 +8,42 @@ import json
 
 openai.api_key = os.environ.get('OPENAI_API_KEY')
 
+class Item(BaseModel):
+    article_type: str
+    topic: str
+    tone: str = None
+    audience: str = None
+    keywords: str = None
+    num_subtitles: int = 5
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 2000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
+
+class ArticleItem(BaseModel):
+    subtitles: list = []
+    article_type: str
+    topic: str
+    tone: str = None
+    audience: str = None
+    keywords: str = None
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 2000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
+
 class ArticleGenerator:
 
     def __init__(self, article_type, topic, tone = None, audience = None,
-                 keywords = None, length = 2000, num_subtitles=5,
-                 engine = "text-davinci-002", temperature=1, max_tokens=500,
-                 frequency_penalty=0,presence_penalty=0):
+                 keywords = None, num_subtitles=5,engine = "text-davinci-002",
+                 temperature=1, max_tokens=2000,frequency_penalty=0,presence_penalty=0):
         self.article_type = article_type
         self.topic = topic
         self.tone = tone
         self.audience = audience
         self.keywords = keywords
-        self.length = length
         self.num_subtitles = num_subtitles
         self.engine = engine
         self.temperature = temperature
@@ -33,7 +57,7 @@ class ArticleGenerator:
 
 
     def generateSubtitles(self):
-        prompt = "Generate {} blog topics on: {} with keywords: {}.".format(self.num_subtitles, self.topic, self.keywords)
+        prompt = "Generate {} {} topics on: {} with keywords: {}.".format(self.num_subtitles, self.article_type, self.topic, self.keywords)
         response = openai.Completion.create(
             engine=self.engine,
             prompt=prompt,
@@ -65,6 +89,22 @@ class ArticleGenerator:
             presence_penalty=self.presence_penalty
         )
         return response['choices'][0]['text']
+
+app = FastAPI()
+
+@app.post("/generate/subtitle")
+async def createItem(item:Item):
+    generator = ArticleGenerator(item.article_type, item.topic, item.tone, item.audience, item.keywords, item.num_subtitles, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
+    jsontext = {'data': generator.generateSubtitles()}
+    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '))
+    return jsondata
+
+@app.post("generate/article")
+async def createItem(item:Item):
+
+
+if __name__ == '__main__':
+    uvicorn.run(app)
 
 article_generator = ArticleGenerator("blog post", "wildlife protection")
 subtitles = article_generator.generateSubtitles()
