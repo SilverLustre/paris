@@ -3,50 +3,65 @@ from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
+import json
+#from dotenv import find_dotenv, load_dotenv
+import os
 
+# load_dotenv(find_dotenv('.env'))
+# env_dist = os.environ
+# print(env_dist.get('OPENAI_API_KEY'))
 openai.api_key = ""
 
-class EmailItem(BaseModel):
-    content: str
 
 app = FastAPI()
 
-@app.post("/items")
-async def create_item(email_item:EmailItem):
+class EmailItem(BaseModel):
+    content: str
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 1000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
 
-    return "Hello world"
 
-class EmailReplyer(BaseModel):
+class EmailReplyer():
     email_content: str
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 1000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
 
-    def __init__(self, email_content):
+    def __init__(self, email_content, engine = "text-davinci-002",temperature=1,
+                 max_tokens=1000,frequency_penalty=0,presence_penalty=0):
         self.email_content = email_content
+        engine: str = "text-davinci-002"
+        temperature: float = 1
+        max_tokens: int = 1000
+        frequency_penalty: float = 0
+        presence_penalty: float = 0
 
     def reply(self):
         response = openai.Completion.create(
-            engine="text-davinci-002",
+            engine=self.engine,
             prompt="Respond to the following email text: {}. Response:".format(self.email_content),
-            temperature=0.7,
-            max_tokens=100,
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
             top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-            )
+            frequency_penalty=self.frequency_penalty,
+            presence_penalty=self.presence_penalty
+        )
+        print(response['choices'][0]['text'])
         return response['choices'][0]['text']
 
 
-email_content = """Hi team,
+@app.post("/reply")
+async def createItem(email_item:EmailItem):
+    email_replyer = EmailReplyer(email_item.content)
+    jsontext = {'data': email_replyer.reply()}
+    jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '))
+    return jsondata
 
-How was your long weekend? Did something special?
-
-I was wondering if you could mount Paris on our server? - We have a Bluehost hosting account and we might find it useful to run Paris from there. What do you think?
-
-Cheers!"""
-
-'''
-email_replyer = EmailReplyer(email_content)
-print(email_replyer.reply())
-'''
 
 if __name__ == '__main__':
     uvicorn.run(app)
