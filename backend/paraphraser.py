@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import uvicorn
 import json
 
-openai.api_key = ""
+openai.api_key =  os.environ.get('OPENAI_API_KEY')
 
 app = FastAPI()
 
