@@ -1,36 +1,14 @@
 import openai
-from typing import Union
-from fastapi import FastAPI
-from pydantic import BaseModel
-import uvicorn
+from fastapi import APIRouter
+from fastapi import Query
 import json
-from fastapi.middleware.cors import CORSMiddleware
-import os
+from core.model.trans_item import TransItem
 
-openai.api_key = os.environ.get('OPENAI_API_KEY')
-
-app = FastAPI()
-origins = [
-    "http://127.0.0.1:5500",
-    "http://localhost",
-    "http://localhost:8080"
-]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+router = APIRouter(
+    prefix="/translate",
+    tags=["Trans"],
+    responses={404: {"description": "Not found"}},
 )
-
-class Item(BaseModel):
-    content: str
-    language: str
-    engine: str = "text-davinci-002"
-    temperature: float = 1
-    max_tokens: int = 1000
-    frequency_penalty: float = 0
-    presence_penalty: float = 0
 
 class Translator:
 
@@ -67,13 +45,9 @@ class Translator:
         print(response['choices'][0]['text'])
         return response['choices'][0]['text']
 
-@app.post("/translate")
-async def createItem(item:Item):
+@router.post("/")
+async def createItem(item:TransItem):
     translator = Translator(item.content, item.language, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': translator.translate()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)
     return jsondata
-
-
-if __name__ == '__main__':
-    uvicorn.run(app)

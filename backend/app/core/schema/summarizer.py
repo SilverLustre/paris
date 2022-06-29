@@ -1,23 +1,14 @@
 import openai
-from typing import Union
-from fastapi import FastAPI
-from pydantic import BaseModel
-import uvicorn
+from fastapi import APIRouter
+from fastapi import Query
 import json
+from core.model.summ_item import SummItem
 
-openai.api_key =  os.environ.get('OPENAI_API_KEY')
-
-app = FastAPI()
-
-class Item(BaseModel):
-    content: str
-    tone: str = None
-    audience: str = None
-    engine: str = "text-davinci-002"
-    temperature: float = 1
-    max_tokens: int = 1000
-    frequency_penalty: float = 0
-    presence_penalty: float = 0
+router = APIRouter(
+    prefix="/summarize",
+    tags=["Summ"],
+    responses={404: {"description": "Not found"}},
+)
 
 class Summarizer:
     content: str
@@ -52,13 +43,9 @@ class Summarizer:
         )
         return response['choices'][0]['text']
 
-@app.post("/summarize")
-async def createItem(item:Item):
+@router.post("/")
+async def createItem(item:SummItem):
     summarizer = Summarizer(item.content, item.tone, item.audience, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': summarizer.summarize()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)
     return jsondata
-
-
-if __name__ == '__main__':
-    uvicorn.run(app)

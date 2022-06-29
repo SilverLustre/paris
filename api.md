@@ -63,7 +63,7 @@ http://localhost:8000/reply
 
 
 ## GenerateSubtitles:
-http://localhost:8000/genSubs
+http://localhost:8000/subtitle
 ### Input:
     prompt: str = "write a ...."
     engine: str = "text-davinci-002"
@@ -76,16 +76,16 @@ http://localhost:8000/genSubs
     {'subtitles': ["title1", "title2", ...]}
 
 ## SubtitlesToArticle:
-http://localhost:8000/subsToArticle
+http://localhost:8000/article
 ### Input:
     subtitles: str = ["title1", "title2", ...]
     prompt: str = "write a ..."
-    text_type: str = "Blog Post"
+    article_type: str = "Blog Post"
     topic: str = "seniors love to eat ice cream"
     tone: str = "professional"
-    target_audience = "Australian"
+    audience = "Australian"
     keywords = ["apple", "banana"]
-    number_of_subtitles: int = 5
+    num_subtitles: int = 5
     engine: str = "text-davinci-002"
     temperature: float = 1
     max_tokens: int = 1000
