@@ -88,6 +88,33 @@ body {
     border-radius: 5px;
     padding: 36px 24px 40px 24px;
   }
+
+  mark.red {
+    color: red;
+    background: none;
+  }
+
+  mark.green {
+    color: rgb(0, 189, 0);
+    background: none;
+  }
+
+  mark.blue {
+    color: blue;
+    background: none;
+  }
+
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color:rgb(197, 197, 197);
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(197, 197, 197);
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(197, 197, 197);
+  }
   
   * {
     box-sizing: border-box;

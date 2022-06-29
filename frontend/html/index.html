@@ -19,7 +19,7 @@
                             <h1>Paris</h1>
                         </div>
                         <div class="col-8">
-                            <h4>Service Status:</h4>
+                            <h4>Service Status: <mark class="red" id="serviceStatus">Offline</mark></h4>
                         </div>
                     </div>
 
@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-4">API Key</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" autocomplete="on" id="apiKeyInput">
+                                <input type="text" class="circleTextInput" autocomplete="on" placeholder="Place your API Key here" id="apiKeyInput">
                             </div>
                         </div>
                         <div class="row">
@@ -71,7 +71,7 @@
                         <div class="row">
                             <div class="col-4">Tone</div>
                             <div class="col-8">
-                                <input type="text" list="toneList" class="circleTextInput" id="toneInput">
+                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput">
                                 <datalist id="toneList">
                                     <option>Appreciative</option>
                                     <option>Assertive</option>
@@ -107,21 +107,21 @@
                         <div class="row">
                             <div class="col-4">Target Audience</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" id="targetAudienceInput">
+                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput">
                                 <button class="circleButton" id="targetAudienceClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Keywords</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" id="keywordsInput">
+                                <input type="text" class="circleTextInput" placeholder= "youth, sport, fashion" id="keywordsInput">
                                 <button class="circleButton" id="keywordsClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Number of Subtitles</div>
                             <div class="col-8">
-                                <input type="number" min="0" class="circleTextInput" id="numOfSubsInput">
+                                <input type="number" min="0" class="circleTextInput" placeholder="If left blank, decided by the model" id="numOfSubsInput">
                             </div>
                         </div>
 

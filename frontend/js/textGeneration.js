@@ -1,4 +1,38 @@
 // Title Block
+function setServiceStatus(status){
+    var serviceStatus = document.getElementById("serviceStatus")
+    if (status === "Online"){
+        serviceStatus.innerHTML = status;
+        serviceStatus.classList.replace("red", "green");
+    }else if (status === "Offline"){
+        serviceStatus.innerHTML = status;
+        serviceStatus.classList.replace("green", "red");
+    }
+}
+window.setInterval(function(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+        if (this.readyState === 4){
+            if (this.status === 200){
+                console.log(this.status);
+                console.log(this.responseText);
+                setServiceStatus("Online");
+            }else{
+                console.log(this.status);
+                console.log(this.responseText);
+                setServiceStatus("Offline");
+            }
+        }
+    }
+
+    xhttp.timeout = 8000;
+    xhttp.ontimeout = function(){
+        console.log('Status check timed out.')
+    }
+    xhttp.open("GET", "http://127.0.0.1:8000/aloha");
+    xhttp.setRequestHeader("Access-Control-Allow-Origin", "http://127.0.0.1:8000/");
+    xhttp.send(null, true);
+}, 5000);
 
 // Configurations Block
 var textTypeClrBt = document.getElementById("textTypeClrBt");
@@ -41,6 +75,11 @@ function generatePrompt(){
     var tone = document.getElementById("toneInput").value;
     var targetAudience = document.getElementById("targetAudienceInput").value;
     var keywords = document.getElementById("keywordsInput").value;
+
+    if (topic===''){
+        alert('You must specify a topic!');
+        return;
+    }
     
 
     var elements = []
@@ -90,41 +129,7 @@ function generatePrompt(){
     promptTextarea.value = elements.join(' ');
 }
 
-function generateSubtitles(){
-    if (numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0'){
-        alert('Number of subtitles must be set larger than 0.');
-        return;
-    }
-    var engine = document.getElementById('modelSelect').value;
-    var maxToken = document.getElementById('maxTokenInput').value;
-    var temperature = document.getElementById('tempInput').value;
-    var presencePenalty = document.getElementById('presencePenaltyInput').value;
-    var freqPenalty = document.getElementById('freqPenaltyInput').value;
-    var prompt = document.getElementById('promptTextarea').value;
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function(){
-        if (this.readyState == 4){
-            // complete
-            if (this.status == 200){
-                console.log(this.responseText);
-            }
-
-        }
-    }
-    xhttp.open("POST","http://127.0.0.1:8000/translate");
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    // xhttp.setRequestHeader("Access-Control-Allow-Origin", "http://127.0.0.1:8000/");
-    xhttp.send(JSON.stringify({
-        "engine": engine,
-        "temperature": temperature,
-        "max_tokens": maxToken,
-        "frequency_penalty":freqPenalty,
-        "presence_penalty": presencePenalty,
-        "prompt": prompt
-    }));
-
-}
 
 function subtitlesToArticle(){
     console.log("subtitlesToArticle");
@@ -140,10 +145,54 @@ modelParamsGenPromptBt.onclick = function(){
 var modelParamsGenArticleBt = document.getElementById("modelParamsGenArticleBt");
 
 
-
 // Prompt Block
+function generateSubtitles(){
+    console.log('generateSubtitles');
+    var subtitlesTextarea = document.getElementById('subtitlesTextarea');
+    var numOfSubsInput = document.getElementById("numOfSubsInput").value;
+    if (numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0'){
+        alert('Number of subtitles must be set larger than 0.');
+        return;
+    }
+    subtitlesTextarea.value = 'Generating...';
+    var engine = document.getElementById('modelSelect').value;
+    var maxToken = document.getElementById('maxTokenInput').value;
+    var temperature = document.getElementById('tempInput').value;
+    var presencePenalty = document.getElementById('presencePenaltyInput').value;
+    var freqPenalty = document.getElementById('freqPenaltyInput').value;
+    var prompt = document.getElementById('promptTextarea').value;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+        if (this.readyState === 4){
+            // complete
+            if (this.status === 200){
+                console.log(this.responseText);
+                var jsonObj = JSON.parse(JSON.parse(this.responseText));
+                subtitlesTextarea.value = jsonObj.subtitles.join(',');
+            }
+        }
+    }
+    xhttp.open("POST","http://127.0.0.1:8000/gensubs");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.setRequestHeader("Access-Control-Allow-Origin", "http://127.0.0.1:8000/");
+    xhttp.send(JSON.stringify({
+        "engine": engine,
+        "temperature": temperature,
+        "max_tokens": maxToken,
+        "frequency_penalty":freqPenalty,
+        "presence_penalty": presencePenalty,
+        "prompt": prompt
+    }),true);
+
+}
 
 var promptClrBt = document.getElementById("promptClrBt");
 promptClrBt.onclick = function(){
     promptTextarea.value='';
+}
+
+var promptGenSubsBt = document.getElementById("promptGenSubsBt");
+promptGenSubsBt.onclick = function(){
+    generateSubtitles();
 }
