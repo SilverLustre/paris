@@ -42,7 +42,7 @@ class Descriptor:
         return response['choices'][0]['text']
 
 @router.post("/")
-async def createItem(item:ProductItem):
+def createItem(item:ProductItem):
     descriptor = Descriptor(item.productName,item.description, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': descriptor.describe()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)

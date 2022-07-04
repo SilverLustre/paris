@@ -30,3 +30,7 @@ backend/app/core/schema/__pycache__/translator.cpython-38.pyc
 backend/app/core/schema/__pycache__/translator.cpython-310.pyc
 backend/app/route/__pycache__/api.cpython-38.pyc
 backend/app/route/__pycache__/api.cpython-310.pyc
+backend/app/core/schema/__pycache__/product_descriptor.cpython-38.pyc
+backend/app/core/schema/__pycache__/product_descriptor.cpython-310.pyc
+backend/app/core/model/__pycache__/product_item.cpython-38.pyc
+backend/app/core/model/__pycache__/product_item.cpython-310.pyc

@@ -43,7 +43,7 @@ class EmailReplyer():
 
 
 @router.post("/")
-async def createItem(item:EmailItem):
+def createItem(item:EmailItem):
     email_replyer = EmailReplyer(item.content)
     jsontext = {'data': email_replyer.reply()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '))

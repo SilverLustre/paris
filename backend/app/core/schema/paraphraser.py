@@ -44,7 +44,7 @@ class Paraphaser:
         return response['choices'][0]['text']
 
 @router.post("/")
-async def createItem(item:ParaItem):
+def createItem(item:ParaItem):
     paraphaser = Paraphaser(item.content, item.tone, item.audience, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': paraphaser.paraphase()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)

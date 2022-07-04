@@ -52,7 +52,7 @@ class ArticleGenerator:
         return article
 
 @router.post("/")
-async def createItem(item:ArticleItem):
+def createItem(item:ArticleItem):
     generator = ArticleGenerator(item.subtitles,item.prompt,item.article_type, item.topic, item.tone, item.audience, item.keywords, item.num_subtitles, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'article': generator.expandSubtitle()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ':'),ensure_ascii=False)

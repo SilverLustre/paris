@@ -44,7 +44,7 @@ class SubtitleGenerator:
         return res_list
 
 @router.post("/")
-async def createItem(item:SubtitleItem):
+def createItem(item:SubtitleItem):
     generator = SubtitleGenerator(item.prompt, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'subtitles': generator.generateSubtitles()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ':'),ensure_ascii=False)

@@ -46,7 +46,7 @@ class Translator:
         return response['choices'][0]['text']
 
 @router.post("/")
-async def createItem(item:TransItem):
+def createItem(item:TransItem):
     translator = Translator(item.content, item.language, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': translator.translate()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)

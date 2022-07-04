@@ -44,7 +44,7 @@ class Summarizer:
         return response['choices'][0]['text']
 
 @router.post("/")
-async def createItem(item:SummItem):
+def createItem(item:SummItem):
     summarizer = Summarizer(item.content, item.tone, item.audience, item.engine, item.temperature, item.max_tokens, item.frequency_penalty, item.presence_penalty)
     jsontext = {'data': summarizer.summarize()}
     jsondata = json.dumps(jsontext,indent=4,separators=(',', ': '),ensure_ascii=False)

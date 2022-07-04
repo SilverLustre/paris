@@ -125,7 +125,7 @@ function generatePrompt(){
             elements.push(keywords);
         }
     }
-
+    elements[elements.length-1] += '.';
     promptTextarea.value = elements.join(' ');
 }
 
@@ -206,6 +206,7 @@ var promptGenArticleBt = document.getElementById("promptGenArticleBt");
 function subtitlesToArticle(){
     console.log("subtitlesToArticle");
     var genResultTextarea = document.getElementById("genResultTextarea");
+    genResultTextarea.value = 'Generating...';
 
     var subtitlesTextarea = document.getElementById("subtitlesTextarea");
     var subtitles = subtitlesTextarea.value.split(/\r?\n/);
