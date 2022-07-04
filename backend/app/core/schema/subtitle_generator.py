@@ -38,8 +38,7 @@ class SubtitleGenerator:
         for line in res_split:
             if len(line)>2:
                 line =  re.sub("^[0-9].","",line)
-                line.strip()
-                res_list.append(line)
+                res_list.append(line.strip())
         print(res_list)
         return res_list
 

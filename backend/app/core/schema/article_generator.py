@@ -35,7 +35,7 @@ class ArticleGenerator:
         article = ""
         for subtitle in self.subtitles:
             if subtitle!="":
-                prompt = "Expand the {} section about {} in to a {} explanation, targeting the audience of {}, with keywords: {}".format(self.article_type, subtitle, self.tone, self.audience, self.keywords)
+                prompt = "Expand the {} section about {} in to a {} explanation, targeting the audience of {}, with keywords: {}.".format(self.article_type, subtitle, self.tone, self.audience, self.keywords)
                 response = openai.Completion.create(
                     engine=self.engine,
                     prompt=prompt,
