@@ -95,3 +95,15 @@ http://localhost:8000/article
 
 ### output:
     {'article': "This is a generated article..."}
+
+## Product description
+### Input:
+    productName: str
+    description: str
+    engine: str = "text-davinci-002"
+    temperature: float = 1
+    max_tokens: int = 1000
+    frequency_penalty: float = 0
+    presence_penalty: float = 0
+### Output:
+    {'data': }

@@ -21,9 +21,9 @@ app.add_middleware(
 
 app.include_router(api_router)
 
-@app.get("/aloha")
-async def aloha():
-    return "Online"
+# @app.get("/aloha")
+# async def aloha():
+#     return "Online"
 
 
 if __name__ == '__main__':
