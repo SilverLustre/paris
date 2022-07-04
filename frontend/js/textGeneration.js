@@ -182,7 +182,10 @@ function generateSubtitles(){
 
 }
 
-
+var promptCpBt = document.getElementById("promptCpBt");
+promptCpBt.onclick = function(){
+    navigator.clipboard.writeText(promptTextarea.value);
+}
 
 var promptClrBt = document.getElementById("promptClrBt");
 promptClrBt.onclick = function(){
@@ -251,7 +254,30 @@ function subtitlesToArticle(){
     }),true);
 }
 
+var subsCpBt = document.getElementById("subsCpBt");
+subsCpBt.onclick = function(){
+    navigator.clipboard.writeText(document.getElementById("subtitlesTextarea").value);
+}
+
 var subsGenArticleBt = document.getElementById("subsGenArticleBt");
 subsGenArticleBt.onclick = function(){
     subtitlesToArticle();
+}
+
+var subsClrBt = document.getElementById("subsClrBt");
+subsClrBt.onclick = function(){
+    document.getElementById("subtitlesTextarea").value = "";
+}
+
+
+// Result Block
+
+var genResultCpBt = document.getElementById("genResultCpBt");
+genResultCpBt.onclick = function(){
+    navigator.clipboard.writeText(document.getElementById("genResultTextarea").value);
+}
+
+var genResultClrBt = document.getElementById("genResultClrBt");
+genResultClrBt.onclick = function(){
+    document.getElementById("genResultTextarea").value = "";
 }
