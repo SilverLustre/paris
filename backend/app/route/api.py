@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from core.schema import article_generator, email_replyer, paraphraser, subtitle_generator, summarizer, translator
+from core.schema import article_generator, email_replyer, paraphraser, subtitle_generator, summarizer, translator, product_descriptor
 
 router = APIRouter()
 router.include_router(article_generator.router)
@@ -8,3 +8,4 @@ router.include_router(paraphraser.router)
 router.include_router(subtitle_generator.router)
 router.include_router(summarizer.router)
 router.include_router(translator.router)
+router.include_router(product_descriptor.router)
