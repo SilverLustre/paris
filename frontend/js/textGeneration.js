@@ -34,6 +34,21 @@
 //     xhttp.send(null, true);
 // }, 10000);
 
+document.getElementById("apiKeyInput").value = getSavedValue("apiKeyInput");
+
+function saveValue(e){
+    var id = e.id;
+    var value = e.value;
+    localStorage.setItem(id, value);
+}
+
+function getSavedValue(id){
+    if (!localStorage.getItem(id)){
+        return "";
+    }
+    return localStorage.getItem(id);
+}
+
 // Configurations Block
 var textTypeClrBt = document.getElementById("textTypeClrBt");
 textTypeClrBt.onclick = function(){
@@ -153,6 +168,10 @@ function generateSubtitles(){
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
     var freqPenalty = document.getElementById('freqPenaltyInput').value;
     var prompt = document.getElementById('promptTextarea').value;
+    if (apiKeyInput.length==0){
+        alert('You must specify the API Key.');
+        return;
+    }
     if (prompt.length==0){
         alert('Prompt cannot be empty.');
         return;
