@@ -19,7 +19,7 @@
                             <h1>Paris</h1>
                         </div>
                         <div class="col-8">
-                            <h4>Service Status: <mark class="red" id="serviceStatus"></mark></h4>
+                            <!-- <h4>Service Status: <mark class="red" id="serviceStatus"></mark></h4> -->
                         </div>
                     </div>
 
@@ -52,7 +52,7 @@
                         <div class="row">
                             <div class="col-4">Topic</div>
                             <div class="col-8">
-                                <textarea name="" id="topicTextarea" cols="30" rows="4" class="circleTextarea"></textarea>
+                                <textarea name="" id="topicTextarea" cols="30" rows="4" class="circleTextarea">Apple Inc.</textarea>
                                 <button class="circleButton" id="topicTextareaClrBt">Clear</button>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                         <div class="row">
                             <div class="col-4">Number of Subtitles</div>
                             <div class="col-8">
-                                <input type="number" min="0" class="circleTextInput" placeholder="If left blank, decided by the model" id="numOfSubsInput">
+                                <input type="number" min="0" value="5" class="circleTextInput" placeholder="If left blank, decided by the model" id="numOfSubsInput">
                             </div>
                         </div>
 
@@ -146,7 +146,7 @@
                         <div class="row">
                             <div class="col-4">Max Token</div>
                             <div class="col-8">
-                                <input type="number" min="0" max="4000" value="300" class="circleTextInput" id="maxTokenInput">
+                                <input type="number" min="0" max="4096" value="500" step="100" class="circleTextInput" id="maxTokenInput">
                             </div>
                         </div>
                         <div class="row">
@@ -173,11 +173,12 @@
                                 <!-- <button class="circleButton" id="modelParamsGenArticleBt">Generate Article</button> -->
                             </div>
                         </div>
-                        <div class="col-12"><h3>Prompt</h3></div>
+
                     </div>
                     
                     <!-- Prompt Block-->
                     <div class="row" id="promptBlock">
+                        <div class="col-12"><h3>Prompt</h3></div>
                         <textarea name="" id="promptTextarea" cols="30" rows="7" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-11">
