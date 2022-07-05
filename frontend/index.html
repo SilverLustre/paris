@@ -12,14 +12,14 @@
             <div class="row">
                 <!-- Left Block -->
                 <div class="col-6">
-
                     <!-- Title Block -->
                     <div class="row" id="titleBlock">
                         <div class="col-4">
                             <h1>Paris</h1>
                         </div>
-                        <div class="col-8">
+                        <div class="col-8" id="resetButtonCol">
                             <!-- <h4>Service Status: <mark class="red" id="serviceStatus"></mark></h4> -->
+                            <button class="circleButton" id="resetBt">Reset</button>
                         </div>
                     </div>
 
@@ -52,14 +52,14 @@
                         <div class="row">
                             <div class="col-4">Topic</div>
                             <div class="col-8">
-                                <textarea name="" id="topicTextarea" cols="30" rows="4" class="circleTextarea">Apple Inc.</textarea>
+                                <textarea name="" id="topicTextarea" cols="30" rows="4" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                                 <button class="circleButton" id="topicTextareaClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Text Type</div>
                             <div class="col-8">
-                                <input type="text" list="textTypeList" class="circleTextInput" id="textTypeInput">
+                                <input type="text" list="textTypeList" class="circleTextInput" id="textTypeInput" onkeyup='saveValue(this);'>
                                 <datalist id="textTypeList">
                                     <option>Blog Post</option>
                                     <option>Email</option>
@@ -72,7 +72,7 @@
                         <div class="row">
                             <div class="col-4">Tone</div>
                             <div class="col-8">
-                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput">
+                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput" onkeyup='saveValue(this);'>
                                 <datalist id="toneList">
                                     <option>Appreciative</option>
                                     <option>Assertive</option>
@@ -108,21 +108,21 @@
                         <div class="row">
                             <div class="col-4">Target Audience</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput">
+                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput" onkeyup='saveValue(this);'>
                                 <button class="circleButton" id="targetAudienceClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Keywords</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" placeholder= "youth, sport, fashion" id="keywordsInput">
+                                <input type="text" class="circleTextInput" placeholder= "youth, sport, fashion" id="keywordsInput" onkeyup='saveValue(this);'>
                                 <button class="circleButton" id="keywordsClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Number of Subtitles</div>
                             <div class="col-8">
-                                <input type="number" min="0" value="5" class="circleTextInput" placeholder="If left blank, decided by the model" id="numOfSubsInput">
+                                <input type="number" min="0" value="5" class="circleTextInput" placeholder="If left blank, decided by the model" id="numOfSubsInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
 
@@ -135,7 +135,7 @@
                         <div class="row">
                             <div class="col-4">Model</div>
                             <div class="col-8">
-                                <select name="" id="modelSelect" class="circleSelect">
+                                <select name="" id="modelSelect" class="circleSelect" onchange="saveValue(this);">
                                     <option value="text-davinci-002">text-davinci-002</option>
                                     <option value="text-curie-001">text-curie-001</option>
                                     <option value="text-babbage-001">text-babbage-001</option>
@@ -146,25 +146,25 @@
                         <div class="row">
                             <div class="col-4">Max Token</div>
                             <div class="col-8">
-                                <input type="number" min="0" max="4096" value="500" step="100" class="circleTextInput" id="maxTokenInput">
+                                <input type="number" min="0" max="4096" value="500" step="100" class="circleTextInput" id="maxTokenInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Temperature</div>
                             <div class="col-8">
-                                <input type="number" step="0.01" min="0" max="1" value="1" class="circleTextInput" id="tempInput">
+                                <input type="number" step="0.01" min="0" max="1" value="1" class="circleTextInput" id="tempInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Presence Penalty</div>
                             <div class="col-8">
-                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="presencePenaltyInput">
+                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="presencePenaltyInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Frequency Penalty</div>
                             <div class="col-8">
-                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="freqPenaltyInput">
+                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="freqPenaltyInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
                         <div class="row">
@@ -179,7 +179,7 @@
                     <!-- Prompt Block-->
                     <div class="row" id="promptBlock">
                         <div class="col-12"><h3>Prompt</h3></div>
-                        <textarea name="" id="promptTextarea" cols="30" rows="7" class="circleTextarea"></textarea>
+                        <textarea name="" id="promptTextarea" cols="30" rows="7" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-11">
                                 <button class="circleButton" id="promptCpBt">Copy</button>
@@ -197,7 +197,7 @@
                     <!-- Subtitles Block -->
                     <div class="row" id="subtitlesBlock">
                         <div class="col-12"><h3>Subtitles</h3></div>
-                        <textarea name="" id="subtitlesTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
+                        <textarea name="" id="subtitlesTextarea" cols="30" rows="20" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="subsCpBt">Copy</button>
@@ -210,7 +210,7 @@
                     <!-- Result Block -->
                     <div class="row" id="resultBlock">
                         <div class="col-12"><h3>Result</h3></div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea"></textarea>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>

@@ -35,6 +35,31 @@
 // }, 10000);
 
 document.getElementById("apiKeyInput").value = getSavedValue("apiKeyInput");
+// document.getElementById("").value = getSavedValue("");
+document.getElementById("topicTextarea").value = getSavedValue("topicTextarea");
+document.getElementById("textTypeInput").value = getSavedValue("textTypeInput");
+document.getElementById("toneInput").value = getSavedValue("toneInput");
+document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
+document.getElementById("keywordsInput").value = getSavedValue("keywordsInput");
+document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
+if (localStorage.getItem("modelSelect")!==null){
+    document.getElementById("modelSelect").value = getSavedValue("modelSelect");
+}
+if (localStorage.getItem("maxTokenInput")!==null){
+    document.getElementById("maxTokenInput").value = getSavedValue("maxTokenInput");
+}
+if (localStorage.getItem("tempInput")!==null){
+    document.getElementById("tempInput").value = getSavedValue("tempInput");
+}
+if (localStorage.getItem("presencePenaltyInput")!=null){
+    document.getElementById("presencePenaltyInput").value = getSavedValue("presencePenaltyInput");
+}
+if (localStorage.getItem("freqPenaltyInput")!==null){
+    document.getElementById("freqPenaltyInput").value = getSavedValue("freqPenaltyInput");
+}
+document.getElementById("promptTextarea").value = getSavedValue("promptTextarea");
+document.getElementById("subtitlesTextarea").value = getSavedValue("subtitlesTextarea");
+document.getElementById("genResultTextarea").value = getSavedValue("genResultTextarea");
 
 function saveValue(e){
     var id = e.id;
@@ -49,30 +74,50 @@ function getSavedValue(id){
     return localStorage.getItem(id);
 }
 
+// localStore reset
+var resetBt = document.getElementById("resetBt");
+resetBt.onclick = function(){
+    if (confirm('Are you sure to reset the page? You will lose all the data in the fields except for the API Key.')){
+        console.log('clear');
+        var apiKey = localStorage.getItem("apiKeyInput");
+        apiKey = apiKey===null?'':apiKey;
+        localStorage.clear();
+        localStorage.setItem("apiKeyInput", apiKey);
+        location.reload();
+    }else{
+        console.log('no');
+    }
+}
+
 // Configurations Block
 var textTypeClrBt = document.getElementById("textTypeClrBt");
 textTypeClrBt.onclick = function(){
     document.getElementById("textTypeInput").value = '';
+    localStorage.setItem("textTypeInput", '');
 }
 
 var toneClrBt = document.getElementById("toneClrBt");
 toneClrBt.onclick = function(){
     document.getElementById("toneInput").value = '';
+    localStorage.setItem("toneInput", '');
 }
 
 var targetAudienceClrBt = document.getElementById("targetAudienceClrBt");
 targetAudienceClrBt.onclick = function(){
     document.getElementById("targetAudienceInput").value = '';
+    localStorage.setItem("targetAudienceInput", '');
 }
 
 var keywordsClrBt = document.getElementById("keywordsClrBt");
 keywordsClrBt.onclick = function(){
     document.getElementById("keywordsInput").value = '';
+    localStorage.setItem("keywordsInput", '');
 }
 
 var topicTextareaClrBt = document.getElementById("topicTextareaClrBt");
 topicTextareaClrBt.onclick = function(){
     document.getElementById("topicTextarea").value = '';
+    localStorage.setItem("topicTextarea", '');
 }
 
 // Model Parameters Block
@@ -101,7 +146,6 @@ function generatePrompt(){
     if (numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0'){
         // without specified subtitles
         elements = ['Write a'];
-        if (textType[0])
         elements.push(textType);
         elements.push('about');
         elements.push(topic);
@@ -142,6 +186,7 @@ function generatePrompt(){
     }
     elements[elements.length-1] += '.';
     promptTextarea.value = elements.join(' ');
+    localStorage.setItem("promptTextarea", promptTextarea.value);
 }
 
 
@@ -152,7 +197,7 @@ modelParamsGenPromptBt.onclick = function(){
     generatePrompt();
 }
 
-var modelParamsGenArticleBt = document.getElementById("modelParamsGenArticleBt");
+// var modelParamsGenArticleBt = document.getElementById("modelParamsGenArticleBt");
 
 
 // Prompt Block
@@ -202,6 +247,10 @@ function generateSubtitles(){
                     }
                 }
                 subtitlesTextarea.value = results.join("\n");
+                localStorage.setItem("subtitlesTextarea", subtitlesTextarea.value);
+            }else if (this.status === 400 || this.status === 401){
+                subtitlesTextarea.value = '';
+                alert(this.responseText);
             }
         }
     }
@@ -227,6 +276,7 @@ promptCpBt.onclick = function(){
 var promptClrBt = document.getElementById("promptClrBt");
 promptClrBt.onclick = function(){
     promptTextarea.value='';
+    localStorage.setItem("promptTextarea", '');
 }
 
 var promptGenSubsBt = document.getElementById("promptGenSubsBt");
@@ -234,9 +284,8 @@ promptGenSubsBt.onclick = function(){
     generateSubtitles();
 }
 
-var promptGenArticleBt = document.getElementById("promptGenArticleBt");
+// var promptGenArticleBt = document.getElementById("promptGenArticleBt");
 // promptGenArticleBt.onclick = function(){
-
 // }
 
 // Subtitles Block
@@ -245,14 +294,15 @@ function subtitlesToArticle(){
     var genResultTextarea = document.getElementById("genResultTextarea");
     genResultTextarea.value = 'Generating...';
 
+    var apiKeyInput = document.getElementById('apiKeyInput').value;
     var subtitlesTextarea = document.getElementById("subtitlesTextarea");
     var subtitles = subtitlesTextarea.value.split(/\r?\n/);
-    var engine = document.getElementById('modelSelect').value;
+    var model = document.getElementById('modelSelect').value;
     var maxToken = document.getElementById('maxTokenInput').value;
     var temperature = document.getElementById('tempInput').value;
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
     var freqPenalty = document.getElementById('freqPenaltyInput').value;
-    var prompt = document.getElementById('promptTextarea').value;
+    // var prompt = document.getElementById('promptTextarea').value;
 
     var numOfSubsInput = document.getElementById("numOfSubsInput").value;
     var textType = document.getElementById("textTypeInput").value;
@@ -262,34 +312,81 @@ function subtitlesToArticle(){
     var targetAudience = document.getElementById("targetAudienceInput").value;
     var keywords = document.getElementById("keywordsInput").value;
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function(){
-        if (this.readyState === 4){
-            if (this.status === 200){
-                var jsonObj = JSON.parse(JSON.parse(this.responseText));
-                genResultTextarea.value = jsonObj.article;
-            }
+    var promiseList = [];
+    // var result = [];
+    for (let i = 0; i < subtitles.length; i++) {
+        const subtitle = subtitles[i];
+        // generate the prompt
+        var elements = ['Expand the'];
+        elements.push(textType);
+        elements.push('section about');
+        elements.push(topic);
+        elements.push('under the topic of');
+        elements.push(subtitle);
+        elements.push('into');
+        if (tone!==''){
+            elements.push(tone);
         }
+        elements.push('explanation');
+        if (targetAudience!==''){
+            elements.push('targeting the audience of');
+            elements.push(targetAudience);
+        }
+        if (keywords!==''){
+            elements.push('with keywords:');
+            elements.push(keywords);
+        }
+        elements[elements.length-1] += '.';
+        var subtitlePrompt = elements.join(' ');
+
+        // send the prompt of one subtitle and append to result list
+        // genResultTextarea.value = 'Generating '+(i+1)+'/'+subtitles.length+'...';
+        
+        promiseList.push(new Promise(function(resolve, reject){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState === 4){
+                    if (this.status === 200){
+                        var jsonObj = JSON.parse(this.responseText);
+                        // result.push(jsonObj.choices[0].text);
+                        resolve(jsonObj.choices[0].text);
+                    }else if (this.status === 400 || this.status === 401){
+                        // genResultTextarea.value = '';
+                        // alert(this.responseText);
+                        // return;
+                        reject(this.responseText);
+                    }
+                }
+            }
+        
+            xhttp.open("POST","https://api.openai.com/v1/completions");
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
+            xhttp.send(JSON.stringify({
+                "model": model,
+                "temperature": parseFloat(temperature),
+                "max_tokens": parseInt(maxToken),
+                "frequency_penalty":parseFloat(freqPenalty),
+                "presence_penalty": parseFloat(presencePenalty),
+                "prompt": subtitlePrompt
+            }),true);
+        }))
     }
 
-    xhttp.open("POST", "http://127.0.0.1:8000/article");
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.setRequestHeader("Access-Control-Allow-Origin", "http://127.0.0.1:8000/");
-    xhttp.send(JSON.stringify({
-        "subtitles":subtitles,
-        "prompt": prompt,
-        "article_type": textType,
-        "topic": topic,
-        "tone": tone,
-        "audience": targetAudience,
-        "keywords": keywords,
-        "num_subtitles": numOfSubsInput,
-        "engine": engine,
-        "temperature": temperature,
-        "max_tokens": maxToken,
-        "frequency_penalty":freqPenalty,
-        "presence_penalty": presencePenalty
-    }),true);
+    Promise.all(promiseList).then(function(values){
+        console.log(values)
+        genResultTextarea.value = values.join('\n');
+        localStorage.setItem("genResultTextarea", genResultTextarea.value);
+    }).catch(function(reason){
+        console.log(reason);
+        genResultTextarea.value = '';
+        localStorage.setItem("genResultTextarea", genResultTextarea.value);
+        alert(reason);
+    });
+
+    // genResultTextarea.value = result.join('\n');
+
+
 }
 
 var subsCpBt = document.getElementById("subsCpBt");
@@ -305,6 +402,7 @@ subsGenArticleBt.onclick = function(){
 var subsClrBt = document.getElementById("subsClrBt");
 subsClrBt.onclick = function(){
     document.getElementById("subtitlesTextarea").value = "";
+    localStorage.setItem("subtitlesTextarea", '');
 }
 
 
@@ -318,4 +416,5 @@ genResultCpBt.onclick = function(){
 var genResultClrBt = document.getElementById("genResultClrBt");
 genResultClrBt.onclick = function(){
     document.getElementById("genResultTextarea").value = "";
+    localStorage.setItem("genResultTextarea", '');
 }
