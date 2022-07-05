@@ -143,6 +143,7 @@ var modelParamsGenArticleBt = document.getElementById("modelParamsGenArticleBt")
 // Prompt Block
 function generateSubtitles(){
     console.log('generateSubtitles');
+    var apiKeyInput = document.getElementById('apiKeyInput').value;
     var subtitlesTextarea = document.getElementById('subtitlesTextarea');
     var numOfSubsInput = document.getElementById("numOfSubsInput").value;
     subtitlesTextarea.value = 'Generating...';
@@ -187,7 +188,7 @@ function generateSubtitles(){
     }
     xhttp.open("POST","https://api.openai.com/v1/completions");
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.setRequestHeader("Authorization", "Bearer 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");
+    xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
     xhttp.send(JSON.stringify({
         "model": model,
         "temperature": parseFloat(temperature),
