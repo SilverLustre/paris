@@ -41,7 +41,9 @@ document.getElementById("textTypeInput").value = getSavedValue("textTypeInput");
 document.getElementById("toneInput").value = getSavedValue("toneInput");
 document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
 document.getElementById("keywordsInput").value = getSavedValue("keywordsInput");
-document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
+if (localStorage.getItem("numOfSubsInput"!==null)){
+    document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
+}
 if (localStorage.getItem("modelSelect")!==null){
     document.getElementById("modelSelect").value = getSavedValue("modelSelect");
 }
@@ -246,6 +248,13 @@ function generateSubtitles(){
                         }
                     }
                 }
+                if (results.length==0){
+                    for (let i = 0; i < subtitles.length; i++) {
+                        if (subtitles[i].length>0){
+                            results.push(subtitles[i].trim());
+                        }
+                    }
+                }
                 subtitlesTextarea.value = results.join("\n");
                 localStorage.setItem("subtitlesTextarea", subtitlesTextarea.value);
             }else if (this.status === 400 || this.status === 401){
@@ -321,8 +330,11 @@ function subtitlesToArticle(){
         elements.push(textType);
         elements.push('section about');
         elements.push(topic);
-        elements.push('under the topic of');
-        elements.push(subtitle);
+        // elements.push('under the topic of');
+        if (subtitle!==''){
+            elements.push(':');
+            elements.push(subtitle);
+        }
         elements.push('into');
         if (tone!==''){
             elements.push(tone);
