@@ -41,9 +41,7 @@ document.getElementById("textTypeInput").value = getSavedValue("textTypeInput");
 document.getElementById("toneInput").value = getSavedValue("toneInput");
 document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
 document.getElementById("keywordsInput").value = getSavedValue("keywordsInput");
-if (localStorage.getItem("numOfSubsInput"!==null)){
-    document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
-}
+document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
 if (localStorage.getItem("modelSelect")!==null){
     document.getElementById("modelSelect").value = getSavedValue("modelSelect");
 }
@@ -59,9 +57,16 @@ if (localStorage.getItem("presencePenaltyInput")!=null){
 if (localStorage.getItem("freqPenaltyInput")!==null){
     document.getElementById("freqPenaltyInput").value = getSavedValue("freqPenaltyInput");
 }
-document.getElementById("promptTextarea").value = getSavedValue("promptTextarea");
-document.getElementById("subtitlesTextarea").value = getSavedValue("subtitlesTextarea");
-document.getElementById("genResultTextarea").value = getSavedValue("genResultTextarea");
+if (localStorage.getItem("promptTextarea")!==null){
+    document.getElementById("promptTextarea").value = getSavedValue("promptTextarea");
+}
+if (localStorage.getItem("subtitlesTextarea")!==null){
+    document.getElementById("subtitlesTextarea").value = getSavedValue("subtitlesTextarea");
+}
+if (localStorage.getItem("subtitlesTextarea")!==null){
+    document.getElementById("subtitlesTextarea").value = getSavedValue("subtitlesTextarea");
+}
+
 
 function saveValue(e){
     var id = e.id;

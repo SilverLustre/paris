@@ -79,6 +79,78 @@ body {
   .col-12 {
     width: 100%;
   }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 90%;
+  }
+
+  .tooltip .tooltiptextwide {
+    visibility: hidden;
+    width: 500px;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 90%;
+  }
+  
+  .tooltip:hover .tooltiptext, .tooltip:hover .tooltiptextwide{
+    visibility: visible;
+  }
+
+
+  span.tooltiptext table, span.tooltiptextwide table{
+    border: 1px solid black;
+    border-collapse:collapse;
+    border-style: solid;
+    border-color: white;
+  }
+
+  span.tooltiptext table tr, span.tooltiptextwide table tr{
+    border: 1px solid black;
+    border-collapse:collapse;
+    border-style: solid;
+    border-color: white;
+  }
+
+  span.tooltiptext table tr th, span.tooltiptextwide table tr th{
+    border: 1px solid black;
+    border-collapse:collapse;
+    border-style: solid;
+    border-color: white;
+  }
+  
+  span.tooltiptext table tr td, span.tooltiptextwide table tr td{
+    border: 1px solid black;
+    border-collapse:collapse;
+    border-style: solid;
+    border-color: white;
+  }
   
   div.box {
     text-align: center;
@@ -101,6 +173,11 @@ body {
 
   mark.blue {
     color: blue;
+    background: none;
+  }
+
+  mark.yellow {
+    color: yellow;
     background: none;
   }
 
