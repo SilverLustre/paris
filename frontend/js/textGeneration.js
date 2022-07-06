@@ -41,7 +41,9 @@ document.getElementById("textTypeInput").value = getSavedValue("textTypeInput");
 document.getElementById("toneInput").value = getSavedValue("toneInput");
 document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
 document.getElementById("keywordsInput").value = getSavedValue("keywordsInput");
-document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
+if (localStorage.getItem("numOfSubsInput")!==null){
+    document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
+}
 if (localStorage.getItem("modelSelect")!==null){
     document.getElementById("modelSelect").value = getSavedValue("modelSelect");
 }
@@ -63,8 +65,8 @@ if (localStorage.getItem("promptTextarea")!==null){
 if (localStorage.getItem("subtitlesTextarea")!==null){
     document.getElementById("subtitlesTextarea").value = getSavedValue("subtitlesTextarea");
 }
-if (localStorage.getItem("subtitlesTextarea")!==null){
-    document.getElementById("subtitlesTextarea").value = getSavedValue("subtitlesTextarea");
+if (localStorage.getItem("genResultTextarea")!==null){
+    document.getElementById("genResultTextarea").value = getSavedValue("genResultTextarea");
 }
 
 
