@@ -4,7 +4,7 @@
         <title>Paris</title>
         <!-- <link rel="stylesheet" href="..\css\style.css"> -->
         <link rel="stylesheet" href="css\style.css">
-        <script src="js\emailReply.js" defer></script>
+        <script src="js\paraphrasion.js" defer></script>
 
     </head>
     <body>
@@ -213,18 +213,18 @@
                                 <input type="number" step="0.1" min="-2" max="2" value="0" class="circleTextInput" id="freqPenaltyInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="modelParamsGenPromptBt">Generate Prompt</button>
-                                <!-- <button class="circleButton" id="modelParamsGenArticleBt">Generate Article</button> -->
+                                <button class="circleButton" id="modelParamsGenArticleBt">Generate Article</button>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
 
-                    <!-- Email Content Block-->
+                    <!-- Paraphrase Block-->
                     <div class="row" id="contentBlock">
-                        <div class="col-12"><h3>Email Content</h3></div>
+                        <div class="col-12"><h3>Paraphrase Source</h3></div>
                         <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-11">
@@ -248,7 +248,7 @@
                             <div class="col-12">
                                 <button class="circleButton" id="promptCpBt">Copy</button>
                                 <button class="circleButton" id="promptClrBt">Clear</button>
-                                <button class="circleButton" id="promptGenReplyBt">Generate Reply</button>
+                                <button class="circleButton" id="promptGenResultBt">Generate Result</button>
                             </div>
                         </div>
                     </div>
