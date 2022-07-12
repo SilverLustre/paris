@@ -30,17 +30,17 @@
                         <div class="row">
                             <div class="col-4">API Key</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" autocomplete="on" placeholder="Place your API Key here" id="apiKeyInput">
+                                <input type="text" class="circleTextInput" autocomplete="on" placeholder="Place your API Key here" id="apiKeyInput" onkeyup='saveValue(this);'>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Function Select</div>
                             <div class="col-8">
-                                <select name="" id="funcSelect" class="circleSelect">
+                                <select name="" id="funcSelect" class="circleSelect" onkeyup='selectToUrl(this);' oninput="selectToUrl(this);">
                                     <option value="textGeneration">Text Generation</option>
                                     <option value="summerization">Summerization</option>
                                     <option value="paraphrase">Paraphrase</option>
-                                    <option value="replyToEmail">Reply to Email</option>
+                                    <option value="replyToEmail" selected>Reply to Email</option>
                                     <option value="translation">Translation</option>
                                     <option value="productDescription">Product Description</option>
                                 </select>
@@ -55,7 +55,7 @@
                         <div class="row">
                             <div class="col-4">Tone</div>
                             <div class="col-8">
-                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput">
+                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput" onkeyup='saveValue(this);'>
                                 <datalist id="toneList">
                                     <option>Appreciative</option>
                                     <option>Assertive</option>
@@ -91,14 +91,14 @@
                         <div class="row">
                             <div class="col-4">Target Audience</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput">
+                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput" onkeyup='saveValue(this);'>
                                 <button class="circleButton" id="targetAudienceClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Output Language</div>
                             <div class="col-8">
-                                <input type="text" list="languageList" class="circleTextInput" placeholder="English" id="outputLanguageInput">
+                                <input type="text" list="languageList" class="circleTextInput" placeholder="English" id="outputLanguageInput" onkeyup='saveValue(this);'>
                                 <datalist id = "languageList">
                                      <option> English </option>
                                      <option> Spanish </option>
@@ -218,7 +218,7 @@
                     <!-- Email Content Block-->
                     <div class="row" id="contentBlock">
                         <div class="col-12"><h3>Email Content</h3></div>
-                        <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea"></textarea>
+                        <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-11">
                                 <button class="circleButton" id="contentCpBt">Copy</button>
@@ -236,7 +236,7 @@
                     <!-- Prompt Block -->
                     <div class="row" id="promptBlock">
                         <div class="col-12"><h3>Prompt</h3></div>
-                        <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
+                        <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="promptCpBt">Copy</button>
@@ -249,7 +249,7 @@
                     <!-- Result Block -->
                     <div class="row" id="resultBlock">
                         <div class="col-12"><h3>Result</h3></div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="27" class="circleTextarea"></textarea>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="27" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>

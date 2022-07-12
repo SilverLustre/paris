@@ -92,6 +92,23 @@ resetBt.onclick = function(){
         console.log('no');
     }
 }
+
+function selectToUrl(e){
+    if (e.value === 'textGeneration'){
+        window.location = "./index.html";
+    }else if(e.value === 'summarization'){
+        window.location = "./";
+    }else if(e.value === 'paraphrase'){
+        window.location = "./paraphrase.html";
+    }else if(e.value === 'replyToEmail'){
+        window.location = "./email.html";
+    }else if(e.value === 'translation'){
+        window.location = "./translation.html";
+    }else if(e.value === 'productDescription'){
+        window.location = "./product.html";
+    }
+}
+
 // Configurations Block
 
 var toneClrBt = document.getElementById("toneClrBt");
@@ -119,6 +136,7 @@ contentCpBt.onclick = function(){
 var contentClrBt = document.getElementById("contentClrBt")
 contentClrBt.onclick = function(){
   document.getElementById("contentTextarea").value = '';
+  localStorage.setItem("contentTextarea", '');
 }
 
 
@@ -219,6 +237,7 @@ promptCpBt.onclick = function(){
 var promptClrBt = document.getElementById("promptClrBt");
 promptClrBt.onclick = function(){
     promptTextarea.value='';
+    localStorage.setItem("promptTextarea",'');
 }
 
 var promptGenReplyBt = document.getElementById("promptGenReplyBt");
@@ -237,4 +256,5 @@ genResultCpBt.onclick = function(){
 var genResultClrBt = document.getElementById("genResultClrBt");
 genResultClrBt.onclick = function(){
     document.getElementById("genResultTextarea").value = "";
+    localStorage.setItem("genResultTextarea",'');
 }
