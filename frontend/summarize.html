@@ -4,6 +4,7 @@
         <title>Paris</title>
         <!-- <link rel="stylesheet" href="..\css\style.css"> -->
         <link rel="stylesheet" href="css\style.css">
+        <script src="js\utils.js" defer></script>
         <script src="js\summarization.js" defer></script>
 
     </head>
@@ -36,12 +37,11 @@
                         <div class="row">
                             <div class="col-4">Function Select</div>
                             <div class="col-8">
-                                <select name="" id="funcSelect" class="circleSelect">
+                                <select name="" id="funcSelect" class="circleSelect" onkeyup='selectToUrl(this);' oninput="selectToUrl(this);">
                                     <option value="textGeneration">Text Generation</option>
-                                    <option value="summerization">Summerization</option>
+                                    <option value="summarization" selected>Summarization</option>
                                     <option value="paraphrase">Paraphrase</option>
                                     <option value="replyToEmail">Reply to Email</option>
-                                    <option value="translation">Translation</option>
                                     <option value="productDescription">Product Description</option>
                                 </select>
                             </div>
