@@ -486,7 +486,111 @@ function subtitlesToArticleTranslated(){
 }
 
 function subtitlesToArticle(){
+    console.log("subtitlesToArticle");
+    var genResultTextarea = document.getElementById("genResultTextarea");
+    genResultTextarea.value = 'Generating...';
 
+    var apiKeyInput = document.getElementById('apiKeyInput').value;
+    var subtitlesTextarea = document.getElementById("subtitlesTextarea");
+    var subtitles = subtitlesTextarea.value.split(/\r?\n/);
+    var model = document.getElementById('modelSelect').value;
+    var maxToken = document.getElementById('maxTokenInput').value;
+    var temperature = document.getElementById('tempInput').value;
+    var presencePenalty = document.getElementById('presencePenaltyInput').value;
+    var freqPenalty = document.getElementById('freqPenaltyInput').value;
+    // var prompt = document.getElementById('promptTextarea').value;
+
+    var numOfSubsInput = document.getElementById("numOfSubsInput").value;
+    var textType = document.getElementById("textTypeInput").value;
+    textType = textType===''?'article':textType;
+    var topic = document.getElementById("topicTextarea").value;
+    var tone = document.getElementById("toneInput").value;
+    var targetAudience = document.getElementById("targetAudienceInput").value;
+    var keywords = document.getElementById("keywordsInput").value;
+    var language = document.getElementById("langInput").value;
+
+    var prompts = []
+    for (let i = 0; i < subtitles.length; i++) {
+        const subtitle = subtitles[i];
+        // generate the prompt
+        var elements = []
+        elements.push('Expand the');
+        elements.push(textType);
+        elements.push("section about");
+        elements.push(topic);
+        elements[elements.length-1] = "'" + elements[elements.length-1]
+        // elements.push('under the topic of');
+        if (subtitle!==''){
+            elements[elements.length-1] += ':'
+            elements.push(subtitle);
+        }
+        elements[elements.length-1] = elements[elements.length-1] + "'" 
+        elements.push('into');
+        if (tone!==''){
+            elements.push(tone);
+        }
+        elements.push('explanation');
+        if (targetAudience!==''){
+            elements.push('targeting the audience of');
+            elements.push(targetAudience);
+        }
+        if (keywords!==''){
+            elements.push('with keywords:');
+            elements.push(keywords);
+        }
+        elements[elements.length-1] += '.';
+        var subtitlePrompt = elements.join(' ');
+        prompts.push(subtitlePrompt);
+    }
+
+    var promiseList = [];
+    for (let i = 0; i < prompts.length; i++) {
+        const prmpt = prompts[i];
+
+        // send the prompt of one subtitle and append to result list
+        // genResultTextarea.value = 'Generating '+(i+1)+'/'+subtitles.length+'...';
+        promiseList.push(new Promise(function(resolve, reject){
+            // use the translated prompt to generate the text
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function(){
+                if (this.readyState === 4){
+                    if (this.status === 200){
+                        var jsonObj = JSON.parse(this.responseText);
+                        // result.push(jsonObj.choices[0].text);
+                        resolve(jsonObj.choices[0].text);
+                    }else if (this.status === 400 || this.status === 401){
+                        // genResultTextarea.value = '';
+                        // alert(this.responseText);
+                        // return;
+                        reject(this.responseText);
+                    }
+                }
+            }
+        
+            xhttp.open("POST","https://api.openai.com/v1/completions");
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
+            xhttp.send(JSON.stringify({
+                "model": model,
+                "temperature": parseFloat(temperature),
+                "max_tokens": parseInt(maxToken),
+                "frequency_penalty":parseFloat(freqPenalty),
+                "presence_penalty": parseFloat(presencePenalty),
+                "prompt": prmpt
+            }),true);
+        }))
+    }
+
+    Promise.all(promiseList).then(function(values){
+        console.log(values)
+        genResultTextarea.value = values.join('\n');
+        localStorage.setItem("genResultTextarea", genResultTextarea.value);
+    }).catch(function(reason){
+        console.log(reason);
+        genResultTextarea.value = '';
+        localStorage.setItem("genResultTextarea", genResultTextarea.value);
+        alert(reason);
+    });
 }
 
 var subsCpBt = document.getElementById("subsCpBt");
@@ -496,7 +600,13 @@ subsCpBt.onclick = function(){
 
 var subsGenArticleBt = document.getElementById("subsGenArticleBt");
 subsGenArticleBt.onclick = function(){
-    subtitlesToArticle();
+    var language = document.getElementById("langInput").value;
+    if (language === '' || language.toLowerCase() === 'english'){
+        subtitlesToArticle();
+    }else{
+        subtitlesToArticleTranslated();
+    }
+    
 }
 
 var subsClrBt = document.getElementById("subsClrBt");
