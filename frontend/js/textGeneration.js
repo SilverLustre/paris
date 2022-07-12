@@ -322,7 +322,7 @@ promptGenSubsBt.onclick = function(){
 // }
 
 // Subtitles Block
-function subtitlesToArticle(){
+function subtitlesToArticleTranslated(){
     console.log("subtitlesToArticle");
     var genResultTextarea = document.getElementById("genResultTextarea");
     genResultTextarea.value = 'Generating...';
@@ -346,25 +346,29 @@ function subtitlesToArticle(){
     var keywords = document.getElementById("keywordsInput").value;
     var language = document.getElementById("langInput").value;
 
-    var promiseList = [];
-    // var result = [];
+
+    // Translation
+    var prompts = []
     for (let i = 0; i < subtitles.length; i++) {
         const subtitle = subtitles[i];
         // generate the prompt
-        var elements = ['Expand the'];
-        elements.push(textType);
-        elements.push('section');
+        var elements = []
         if (language!==''){
-            elements.push('in');
+            elements.push('Use');
             elements.push(language);
+            elements.push('to');
         }
-        elements.push('about');
+        elements.push('Expand the');
+        elements.push(textType);
+        elements.push("section about");
         elements.push(topic);
+        elements[elements.length-1] = "'" + elements[elements.length-1]
         // elements.push('under the topic of');
         if (subtitle!==''){
             elements[elements.length-1] += ':'
             elements.push(subtitle);
         }
+        elements[elements.length-1] = elements[elements.length-1] + "'" 
         elements.push('into');
         if (tone!==''){
             elements.push(tone);
@@ -380,11 +384,14 @@ function subtitlesToArticle(){
         }
         elements[elements.length-1] += '.';
         var subtitlePrompt = elements.join(' ');
-
-        // send the prompt of one subtitle and append to result list
-        // genResultTextarea.value = 'Generating '+(i+1)+'/'+subtitles.length+'...';
-        
-        promiseList.push(new Promise(function(resolve, reject){
+        prompts.push(subtitlePrompt);
+    }
+    var translatePromiseList = []
+    var translatedPrompts = []
+    for (let i = 0; i < prompts.length; i++) {
+        const prmpt = prompts[i];
+        translatePromiseList.push(new Promise(function(resolve, reject){
+            // use the translated prompt to generate the text
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function(){
                 if (this.readyState === 4){
@@ -406,28 +413,79 @@ function subtitlesToArticle(){
             xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
             xhttp.send(JSON.stringify({
                 "model": model,
-                "temperature": parseFloat(temperature),
-                "max_tokens": parseInt(maxToken),
-                "frequency_penalty":parseFloat(freqPenalty),
-                "presence_penalty": parseFloat(presencePenalty),
-                "prompt": subtitlePrompt
+                "temperature": parseFloat(0),
+                "max_tokens": parseInt(1024),
+                // "frequency_penalty":parseFloat(freqPenalty),
+                // "presence_penalty": parseFloat(presencePenalty),
+                "prompt": 'Translate the source text to '+language+'.\nSource text:"'+prmpt+'"\nTarget text:'
             }),true);
         }))
     }
 
-    Promise.all(promiseList).then(function(values){
+    Promise.all(translatePromiseList).then(function(values){
         console.log(values)
-        genResultTextarea.value = values.join('\n');
-        localStorage.setItem("genResultTextarea", genResultTextarea.value);
+        translatedPrompts = values;
+        for (let i = 0; i < translatedPrompts.length; i++) {
+            translatedPrompts[i] = translatedPrompts[i].trim();
+        }
+
+        var promiseList = [];
+        for (let i = 0; i < translatedPrompts.length; i++) {
+            const prmpt = translatedPrompts[i];
+
+            // send the prompt of one subtitle and append to result list
+            // genResultTextarea.value = 'Generating '+(i+1)+'/'+subtitles.length+'...';
+            promiseList.push(new Promise(function(resolve, reject){
+                // use the translated prompt to generate the text
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function(){
+                    if (this.readyState === 4){
+                        if (this.status === 200){
+                            var jsonObj = JSON.parse(this.responseText);
+                            // result.push(jsonObj.choices[0].text);
+                            resolve(jsonObj.choices[0].text);
+                        }else if (this.status === 400 || this.status === 401){
+                            // genResultTextarea.value = '';
+                            // alert(this.responseText);
+                            // return;
+                            reject(this.responseText);
+                        }
+                    }
+                }
+            
+                xhttp.open("POST","https://api.openai.com/v1/completions");
+                xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
+                xhttp.send(JSON.stringify({
+                    "model": model,
+                    "temperature": parseFloat(temperature),
+                    "max_tokens": parseInt(maxToken),
+                    "frequency_penalty":parseFloat(freqPenalty),
+                    "presence_penalty": parseFloat(presencePenalty),
+                    "prompt": prmpt
+                }),true);
+            }))
+        }
+
+        Promise.all(promiseList).then(function(values){
+            console.log(values)
+            genResultTextarea.value = values.join('\n');
+            localStorage.setItem("genResultTextarea", genResultTextarea.value);
+        }).catch(function(reason){
+            console.log(reason);
+            genResultTextarea.value = '';
+            localStorage.setItem("genResultTextarea", genResultTextarea.value);
+            alert(reason);
+        });
+
     }).catch(function(reason){
         console.log(reason);
-        genResultTextarea.value = '';
-        localStorage.setItem("genResultTextarea", genResultTextarea.value);
         alert(reason);
+        return;
     });
+}
 
-    // genResultTextarea.value = result.join('\n');
-
+function subtitlesToArticle(){
 
 }
 
