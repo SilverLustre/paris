@@ -44,6 +44,7 @@ document.getElementById("keywordsInput").value = getSavedValue("keywordsInput");
 if (localStorage.getItem("numOfSubsInput")!==null){
     document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
 }
+document.getElementById("langInput").value = getSavedValue("langInput");
 if (localStorage.getItem("modelSelect")!==null){
     document.getElementById("modelSelect").value = getSavedValue("modelSelect");
 }
@@ -98,6 +99,12 @@ resetBt.onclick = function(){
     }
 }
 
+function selectToUrl(e){
+    if (e.value === 'replyToEmail'){
+        window.location = "./email.html";
+    }
+}
+
 // Configurations Block
 var textTypeClrBt = document.getElementById("textTypeClrBt");
 textTypeClrBt.onclick = function(){
@@ -129,6 +136,12 @@ topicTextareaClrBt.onclick = function(){
     localStorage.setItem("topicTextarea", '');
 }
 
+var langClrBt = document.getElementById("langClrBt");
+langClrBt.onclick = function(){
+    document.getElementById("langInput").value = '';
+    localStorage.setItem("langInput", '')
+}
+
 // Model Parameters Block
 
 var promptTextarea = document.getElementById("promptTextarea");
@@ -144,6 +157,7 @@ function generatePrompt(){
     var tone = document.getElementById("toneInput").value;
     var targetAudience = document.getElementById("targetAudienceInput").value;
     var keywords = document.getElementById("keywordsInput").value;
+    var language = document.getElementById("langInput").value;
 
     if (topic===''){
         alert('You must specify a topic!');
@@ -156,6 +170,10 @@ function generatePrompt(){
         // without specified subtitles
         elements = ['Write a'];
         elements.push(textType);
+        if (language!==''){
+            elements.push('in');
+            elements.push(language);
+        }
         elements.push('about');
         elements.push(topic);
         if (tone!==''){
@@ -175,7 +193,12 @@ function generatePrompt(){
         // with specified subtitles
         elements = ['Generate'];
         elements.push(numOfSubsInput);
-        elements.push('subtitles of a');
+        elements.push('subtitles');
+        if (language!==''){
+            elements.push('in');
+            elements.push(language);
+        }
+        elements.push('of a');
         elements.push(textType);
         elements.push('about');
         elements.push(topic);
@@ -327,6 +350,7 @@ function subtitlesToArticle(){
     var tone = document.getElementById("toneInput").value;
     var targetAudience = document.getElementById("targetAudienceInput").value;
     var keywords = document.getElementById("keywordsInput").value;
+    var language = document.getElementById("langInput").value;
 
     var promiseList = [];
     // var result = [];
@@ -335,11 +359,16 @@ function subtitlesToArticle(){
         // generate the prompt
         var elements = ['Expand the'];
         elements.push(textType);
-        elements.push('section about');
+        elements.push('section');
+        if (language!==''){
+            elements.push('in');
+            elements.push(language);
+        }
+        elements.push('about');
         elements.push(topic);
         // elements.push('under the topic of');
         if (subtitle!==''){
-            elements.push(':');
+            elements[elements.length-1] += ':'
             elements.push(subtitle);
         }
         elements.push('into');

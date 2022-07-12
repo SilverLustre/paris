@@ -34,7 +34,7 @@
                         <div class="row">
                             <div class="col-4">Function Select</div>
                             <div class="col-8">
-                                <select name="" id="funcSelect" class="circleSelect">
+                                <select name="" id="funcSelect" class="circleSelect" onkeyup='selectToUrl(this);' oninput="selectToUrl(this);">
                                     <option value="textGeneration">Text Generation</option>
                                     <option value="summerization">Summerization</option>
                                     <option value="paraphrase">Paraphrase</option>
@@ -123,6 +123,22 @@
                             <div class="col-4">Number of Subtitles</div>
                             <div class="col-8">
                                 <input type="number" min="0" value="5" class="circleTextInput" placeholder="If left blank, decided by the model" id="numOfSubsInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Target Language</div>
+                            <div class="col-8">
+                                <input type="text" class="circleTextInput" list="langList" placeholder="English" id="langInput" onkeyup='saveValue(this);'>
+                                <datalist id="langList">
+                                    <option>English</option>
+                                    <option>Spanish</option>
+                                    <option>French</option>
+                                    <option>Germany</option>
+                                    <option>Chinese</option>
+                                    <option>Japanese</option>
+                                    <option>Korean</option>
+                                </datalist>
+                                <button class="circleButton" id="langClrBt">Clear</button>
                             </div>
                         </div>
 
@@ -238,7 +254,7 @@
                     <!-- Prompt Block-->
                     <div class="row" id="promptBlock">
                         <div class="col-12"><h3>Prompt</h3></div>
-                        <textarea name="" id="promptTextarea" cols="30" rows="7" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
+                        <textarea name="" id="promptTextarea" cols="30" rows="4" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-11">
                                 <button class="circleButton" id="promptCpBt">Copy</button>
@@ -256,7 +272,7 @@
                     <!-- Subtitles Block -->
                     <div class="row" id="subtitlesBlock">
                         <div class="col-12"><h3>Subtitles</h3></div>
-                        <textarea name="" id="subtitlesTextarea" cols="30" rows="20" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
+                        <textarea name="" id="subtitlesTextarea" cols="30" rows="11" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="subsCpBt">Copy</button>
@@ -269,7 +285,7 @@
                     <!-- Result Block -->
                     <div class="row" id="resultBlock">
                         <div class="col-12"><h3>Result</h3></div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="34" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>
