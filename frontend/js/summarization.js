@@ -115,7 +115,7 @@ keywordsClrBt.onclick = function(){
     document.getElementById("keywordsInput").value = '';
 }
 
-//Paraphrase Block
+//Summarize Source Block
 
 var contentCpBt = document.getElementById("contentCpBt");
 contentCpBt.onclick = function(){
@@ -137,15 +137,15 @@ function generatePrompt(){
     var targetAudience = document.getElementById("targetAudienceInput").value;
     var outputLanguage = document.getElementById("outputLanguageInput").value;
     var keywords = document.getElementById("keywordsInput").value;
-    var paraContent = document.getElementById("contentTextarea").value;
+    var summContent = document.getElementById("contentTextarea").value;
 
-    if (paraContent===''){
+    if (summContent===''){
         alert('You must input paraphrase source!');
         return;
     }
 
     var elements = []
-    elements = ['Paraphase the following text']
+    elements = ['Summarize the following text']
     if (targetAudience!==''){
         elements.push('targeting the audience of');
         elements.push(targetAudience);
@@ -165,7 +165,7 @@ function generatePrompt(){
     }
 
     elements.push(', text:"')
-    elements.push(paraContent)
+    elements.push(summContent)
     elements.push('".')
 
     promptTextarea.value = elements.join(' ');
