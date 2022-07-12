@@ -4,7 +4,7 @@
         <title>Paris</title>
         <!-- <link rel="stylesheet" href="..\css\style.css"> -->
         <link rel="stylesheet" href="css\style.css">
-        <script src="js\paraphrasion.js" defer></script>
+        <script src="js\summarization.js" defer></script>
 
     </head>
     <body>
@@ -19,7 +19,7 @@
                             <h1>Paris</h1>
                         </div>
                         <div class="col-8">
-                            <h1>- Paraphraser</h1>
+                            <h1>- Summarizer</h1>
                             <button class="circleButton" id="resetBt">Reset</button>
                             <!-- <h4>Service Status: <mark class="red" id="serviceStatus"></mark></h4> -->
                         </div>
@@ -36,10 +36,10 @@
                         <div class="row">
                             <div class="col-4">Function Select</div>
                             <div class="col-8">
-                                <select name="" id="funcSelect" class="circleSelect" onkeyup='selectToUrl(this);' oninput="selectToUrl(this);">
+                                <select name="" id="funcSelect" class="circleSelect">
                                     <option value="textGeneration">Text Generation</option>
                                     <option value="summerization">Summerization</option>
-                                    <option value="paraphrase" selected>Paraphrase</option>
+                                    <option value="paraphrase">Paraphrase</option>
                                     <option value="replyToEmail">Reply to Email</option>
                                     <option value="translation">Translation</option>
                                     <option value="productDescription">Product Description</option>
@@ -222,9 +222,9 @@
 
                     </div>
 
-                    <!-- Paraphrase Block-->
+                    <!-- Summarize Source Block-->
                     <div class="row" id="contentBlock">
-                        <div class="col-12"><h3>Paraphrase Source</h3></div>
+                        <div class="col-12"><h3>Summarize Source</h3></div>
                         <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-11">
