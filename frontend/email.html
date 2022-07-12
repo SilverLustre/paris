@@ -4,7 +4,7 @@
         <title>Paris</title>
         <!-- <link rel="stylesheet" href="..\css\style.css"> -->
         <link rel="stylesheet" href="css\style.css">
-        <script src="js\emailReply.js" async></script>
+        <script src="js\emailReply.js" defer></script>
 
     </head>
     <body>
@@ -20,6 +20,7 @@
                         </div>
                         <div class="col-8">
                             <h1>- Email Replyer</h1>
+                            <button class="circleButton" id="resetBt">Reset</button>
                             <!-- <h4>Service Status: <mark class="red" id="serviceStatus"></mark></h4> -->
                         </div>
                     </div>
@@ -50,26 +51,7 @@
                     <!-- Configurations Block-->
                     <div class="row" id="configsBlock">
                         <div class="row-12"><h3>Configurations</h3></div>
-                        <!-- <div class="row">
-                            <div class="col-4">Content</div>
-                            <div class="col-8">
-                                <textarea name="" id="contentTextarea" cols="30" rows="4" class="circleTextarea"></textarea>
-                                <button class="circleButton" id="contentTextareaClrBt">Clear</button>
-                            </div>
-                        </div> -->
-                        <!-- <div class="row">
-                            <div class="col-4">Text Type</div>
-                            <div class="col-8">
-                                <input type="text" list="textTypeList" class="circleTextInput" id="textTypeInput">
-                                <datalist id="textTypeList">
-                                    <option>Blog Post</option>
-                                    <option>Email</option>
-                                    <option>Social Media</option>
-                                    <option>Website Content</option>
-                                </datalist>
-                                <button class="circleButton" id="textTypeClrBt">Clear</button>
-                            </div>
-                        </div> -->
+
                         <div class="row">
                             <div class="col-4">Tone</div>
                             <div class="col-8">
@@ -113,20 +95,17 @@
                                 <button class="circleButton" id="targetAudienceClrBt">Clear</button>
                             </div>
                         </div>
-                        <!-- <div class="row">
-                            <div class="col-4">Keywords</div>
+                        <div class="row">
+                            <div class="col-4">Output Language</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" placeholder= "youth, sport, fashion" id="keywordsInput">
-                                <button class="circleButton" id="keywordsClrBt">Clear</button>
+                                <input type="text" list="languageList" class="circleTextInput" placeholder="English" id="outputLanguageInput">
+                                <datalist id = "languageList">
+                                     <option> English </option>
+                                     <option> Spanish </option>
+                                </datalist>
+                                <button class="circleButton" id="outputLanguageClrBt">Clear</button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-4">Number of Subtitles</div>
-                            <div class="col-8">
-                                <input type="number" min="0" value="5" class="circleTextInput" placeholder="If left blank, decided by the model" id="numOfSubsInput">
-                            </div>
-                        </div> -->
-
                     </div>
 
 
@@ -134,9 +113,51 @@
                     <div class="row" id="modelParamsBlock">
                         <div class="col-12"><h3>Model Parameters</h3></div>
                         <div class="row">
-                            <div class="col-4">Model</div>
+                            <div class="col-4 tooltip">Model
+                                <span class="tooltiptextwide">
+                                    <table>
+                                        <tr>
+                                            <th>Latest Model</th>
+                                            <th>Description</th>
+                                            <th>Max Request</th>
+                                            <th>Training Data</th>
+                                            <th>Price</th>
+                                        </tr>
+                                        <tr>
+                                            <td>text-davinci-002</td>
+                                            <td>Most capable GPT-3 model. Can do any task the other models can do, often with less context. In addition to responding to prompts, also supports inserting completions within text.</td>
+                                            <td>4,000 tokens</td>
+                                            <td>Up to Jun 2021</td>
+                                            <td>$0.0600/1k tokens</td>
+                                        </tr>
+                                        <tr>
+                                            <td>text-curie-001</td>
+                                            <td>Very capable, but faster and lower cost than Davinci.</td>
+                                            <td>2,048 tokens</td>
+                                            <td>Up to Oct 2019</td>
+                                            <td>$0.0060/1k tokens</td>
+                                        </tr>
+                                        <tr>
+                                            <td>text-babbage-001</td>
+                                            <td>Capable of straightforward tasks, very fast, and lower cost.</td>
+                                            <td>2,048 tokens</td>
+                                            <td>Up to Oct 2019</td>
+                                            <td>$0.0012/1k tokens</td>
+                                        </tr>
+                                        <tr>
+                                            <td>text-ada-001</td>
+                                            <td>Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.</td>
+                                            <td>2,048 tokens</td>
+                                            <td>Up to Oct 2019</td>
+                                            <td>$0.0008/1k tokens</td>
+                                        </tr>
+                                    </table>
+                                    Updated: 6/July/2022
+                                    <br>Check the latest information: <a href="https://openai.com/api/pricing/">https://openai.com/api/pricing/</a>
+                                </span>
+                            </div>
                             <div class="col-8">
-                                <select name="" id="modelSelect" class="circleSelect">
+                                <select name="" id="modelSelect" class="circleSelect" onchange="saveValue(this);">
                                     <option value="text-davinci-002">text-davinci-002</option>
                                     <option value="text-curie-001">text-curie-001</option>
                                     <option value="text-babbage-001">text-babbage-001</option>
@@ -145,42 +166,59 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4">Max Token</div>
+                            <div class="col-4 tooltip">Max Token
+                                <span class="tooltiptext">The maximum number of tokens to generate in the completion. The equivalent English words number is around 0.7*tokens.
+                                <br>Max=<mark class="yellow"><b>4096</b></mark>(for text-davinci-002)/<mark class="yellow"><b>2048</b></mark> (for others)
+                            </span>
+                        </div>
                             <div class="col-8">
-                                <input type="number" min="0" max="4096" value="500" step="100" class="circleTextInput" id="maxTokenInput">
+                                <input type="number" min="0" max="4096" value="500" step="100" class="circleTextInput" id="maxTokenInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4">Temperature</div>
+                            <div class="col-4 tooltip">Temperature
+                                <span class="tooltiptext">Higher values means the model will take more risks (more diversity). Try <mark class="yellow"><b>0.9</b></mark> for more creative applications,
+                                     and <mark class="yellow"><b>0</b></mark> (argmax sampling) for ones with a well-defined answer.
+                                     <br>Min=<mark class="yellow"><b>0</b></mark>, Max=<mark class="yellow"><b>2</b></mark>
+                                </span>
+                            </div>
                             <div class="col-8">
-                                <input type="number" step="0.01" min="0" max="1" value="1" class="circleTextInput" id="tempInput">
+                                <input type="number" step="0.1" min="0" max="2" value="1" class="circleTextInput" id="tempInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4">Presence Penalty</div>
+                            <div class="col-4 tooltip">Presence Penalty
+                                <span class="tooltiptext">Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+                                    <br>Min=<mark class="yellow"><b>-2</b></mark>, Max=<mark class="yellow"><b>2</b></mark>
+                                </span>
+                            </div>
                             <div class="col-8">
-                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="presencePenaltyInput">
+                                <input type="number" step="0.1" min="-2" max="2" value="0" class="circleTextInput" id="presencePenaltyInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4">Frequency Penalty</div>
+                            <div class="col-4 tooltip">Frequency Penalty
+                                <span class="tooltiptext">Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+                                    <br>Min=<mark class="yellow"><b>-2</b></mark>, Max=<mark class="yellow"><b>2</b></mark>
+                                </span>
+                            </div>
                             <div class="col-8">
-                                <input type="number" step="0.01" min="-2" max="2" value="0" class="circleTextInput" id="freqPenaltyInput">
+                                <input type="number" step="0.1" min="-2" max="2" value="0" class="circleTextInput" id="freqPenaltyInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="modelParamsGenPromptBt">Generate Prompt</button>
-                                <button class="circleButton" id="modelParamsGenArticleBt">Generate Article</button>
+                                <!-- <button class="circleButton" id="modelParamsGenArticleBt">Generate Article</button> -->
                             </div>
-                        </div> -->
+                        </div>
 
                     </div>
 
                     <!-- Email Content Block-->
                     <div class="row" id="contentBlock">
                         <div class="col-12"><h3>Email Content</h3></div>
-                        <textarea name="" id="contentTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
+                        <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-11">
                                 <button class="circleButton" id="contentCpBt">Copy</button>
@@ -211,7 +249,7 @@
                     <!-- Result Block -->
                     <div class="row" id="resultBlock">
                         <div class="col-12"><h3>Result</h3></div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea"></textarea>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="27" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>

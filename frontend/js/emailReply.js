@@ -34,6 +34,64 @@
 //     xhttp.send(null, true);
 // }, 10000);
 
+// local storage
+function saveValue(e){
+    var id = e.id;
+    var value = e.value;
+    localStorage.setItem(id, value);
+}
+
+function getSavedValue(id){
+    if (!localStorage.getItem(id)){
+        return "";
+    }
+    return localStorage.getItem(id);
+}
+
+document.getElementById("apiKeyInput").value = getSavedValue("apiKeyInput");
+document.getElementById("toneInput").value = getSavedValue("toneInput");
+document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
+document.getElementById("outputLanguageInput").value = getSavedValue("outputLanguageInput");
+
+if (localStorage.getItem("modelSelect")!==null){
+    document.getElementById("modelSelect").value = getSavedValue("modelSelect");
+}
+if (localStorage.getItem("maxTokenInput")!==null){
+    document.getElementById("maxTokenInput").value = getSavedValue("maxTokenInput");
+}
+if (localStorage.getItem("tempInput")!==null){
+    document.getElementById("tempInput").value = getSavedValue("tempInput");
+}
+if (localStorage.getItem("presencePenaltyInput")!=null){
+    document.getElementById("presencePenaltyInput").value = getSavedValue("presencePenaltyInput");
+}
+if (localStorage.getItem("freqPenaltyInput")!==null){
+    document.getElementById("freqPenaltyInput").value = getSavedValue("freqPenaltyInput");
+}
+if (localStorage.getItem("contentTextarea")!==null){
+    document.getElementById("contentTextarea").value = getSavedValue("contentTextarea");
+}
+if (localStorage.getItem("promptTextarea")!==null){
+    document.getElementById("promptTextarea").value = getSavedValue("promptTextarea");
+}
+if (localStorage.getItem("genResultTextarea")!==null){
+    document.getElementById("genResultTextarea").value = getSavedValue("genResultTextarea");
+}
+
+
+var resetBt = document.getElementById("resetBt");
+resetBt.onclick = function(){
+    if (confirm('Are you sure to reset the page? You will lose all the data in the fields except for the API Key.')){
+        console.log('clear');
+        var apiKey = localStorage.getItem("apiKeyInput");
+        apiKey = apiKey===null?'':apiKey;
+        localStorage.clear();
+        localStorage.setItem("apiKeyInput", apiKey);
+        location.reload();
+    }else{
+        console.log('no');
+    }
+}
 // Configurations Block
 
 var toneClrBt = document.getElementById("toneClrBt");
@@ -44,6 +102,11 @@ toneClrBt.onclick = function(){
 var targetAudienceClrBt = document.getElementById("targetAudienceClrBt");
 targetAudienceClrBt.onclick = function(){
     document.getElementById("targetAudienceInput").value = '';
+}
+
+var outputLanguageClrBt = document.getElementById("outputLanguageClrBt");
+outputLanguageClrBt.onclick = function(){
+    document.getElementById("outputLanguageInput").value = '';
 }
 
 //Email Content Block
@@ -66,6 +129,7 @@ function generatePrompt(){
 
     var tone = document.getElementById("toneInput").value;
     var targetAudience = document.getElementById("targetAudienceInput").value;
+    var outputLanguage = document.getElementById("outputLanguageInput").value;
     var emailContent = document.getElementById("contentTextarea").value;
 
     if (emailContent===''){
@@ -75,6 +139,7 @@ function generatePrompt(){
 
     var elements = []
     elements = ['Respond to the following email text']
+    elements.push('\n')
     if (tone!==''){
       elements.push('in');
       elements.push(tone);
@@ -83,6 +148,10 @@ function generatePrompt(){
     if (targetAudience!==''){
         elements.push('targeting the audience of');
         elements.push(targetAudience);
+    }
+    if(outputLanguage!==''){
+      elements.push('in')
+      elements.push(outputLanguage)
     }
 
     elements.push(', email text:"')
