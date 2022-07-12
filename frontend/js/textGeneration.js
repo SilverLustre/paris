@@ -162,12 +162,19 @@ function generatePrompt(){
     var elements = []
     if (numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0'){
         // without specified subtitles
-        elements = ['Write a'];
-        elements.push(textType);
+        elements = []
         if (language!==''){
-            elements.push('in');
+            elements.push('Use');
             elements.push(language);
+            elements.push('to');
         }
+        if (elements.length>0){
+            elements.push('write a');
+        }else{
+            elements.push('Write a');
+        }
+        elements.push(textType);
+
         elements.push('about');
         elements.push(topic);
         if (tone!==''){
@@ -188,10 +195,10 @@ function generatePrompt(){
         elements = ['Generate'];
         elements.push(numOfSubsInput);
         elements.push('subtitles');
-        if (language!==''){
-            elements.push('in');
-            elements.push(language);
-        }
+        // if (language!==''){
+        //     elements.push('in');
+        //     elements.push(language);
+        // }
         elements.push('of a');
         elements.push(textType);
         elements.push('about');
@@ -358,7 +365,11 @@ function subtitlesToArticleTranslated(){
             elements.push(language);
             elements.push('to');
         }
-        elements.push('Expand the');
+        if (elements.length>0){
+            elements.push('expand the');
+        }else{
+            elements.push('Expand the');
+        }
         elements.push(textType);
         elements.push("section about");
         elements.push(topic);
