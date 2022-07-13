@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Paris</title>
+        <title>Paris - Summarize</title>
         <!-- <link rel="stylesheet" href="..\css\style.css"> -->
         <link rel="stylesheet" href="css\style.css">
         <script src="js\utils.js" defer></script>
@@ -16,13 +16,11 @@
 
                     <!-- Title Block -->
                     <div class="row" id="titleBlock">
-                        <div class="col-4">
-                            <h1>Paris</h1>
-                        </div>
                         <div class="col-8">
-                            <h1>- Summarizer</h1>
+                            <h1>Paris<mark class="medium"> - Summarize</mark></h1>
+                        </div>
+                        <div class="col-4 automargin">
                             <button class="circleButton" id="resetBt">Reset</button>
-                            <!-- <h4>Service Status: <mark class="red" id="serviceStatus"></mark></h4> -->
                         </div>
                     </div>
 
@@ -31,7 +29,7 @@
                         <div class="row">
                             <div class="col-4">API Key</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" autocomplete="on" placeholder="Place your API Key here" id="apiKeyInput">
+                                <input type="text" class="circleTextInput" autocomplete="on" placeholder="Place your API Key here" id="apiKeyInput"  onkeyup='saveValue(this);'>
                             </div>
                         </div>
                         <div class="row">
@@ -55,7 +53,7 @@
                         <div class="row">
                             <div class="col-4">Tone</div>
                             <div class="col-8">
-                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput">
+                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput" onkeyup='saveValue(this);'>
                                 <datalist id="toneList">
                                     <option>Appreciative</option>
                                     <option>Assertive</option>
@@ -91,14 +89,14 @@
                         <div class="row">
                             <div class="col-4">Target Audience</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput">
+                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput" onkeyup='saveValue(this);'>
                                 <button class="circleButton" id="targetAudienceClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Output Language</div>
                             <div class="col-8">
-                                <input type="text" list="languageList" class="circleTextInput" placeholder="English" id="outputLanguageInput">
+                                <input type="text" list="languageList" class="circleTextInput" placeholder="English" id="outputLanguageInput" onkeyup='saveValue(this);'>
                                 <datalist id = "languageList">
                                      <option> English </option>
                                      <option> Spanish </option>
@@ -225,7 +223,7 @@
                     <!-- Summarize Source Block-->
                     <div class="row" id="contentBlock">
                         <div class="col-12"><h3>Summarize Source</h3></div>
-                        <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea"></textarea>
+                        <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-11">
                                 <button class="circleButton" id="contentCpBt">Copy</button>
@@ -243,7 +241,7 @@
                     <!-- Prompt Block -->
                     <div class="row" id="promptBlock">
                         <div class="col-12"><h3>Prompt</h3></div>
-                        <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
+                        <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="promptCpBt">Copy</button>
@@ -256,7 +254,7 @@
                     <!-- Result Block -->
                     <div class="row" id="resultBlock">
                         <div class="col-12"><h3>Result</h3></div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="27" class="circleTextarea"></textarea>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="27" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>

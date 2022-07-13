@@ -3,6 +3,10 @@ body {
     margin: 0;
   }
 
+  .automargin {
+    margin: auto;
+  }
+
   .circleButton {
     padding:0.5em;
     border-radius:15px;
@@ -181,6 +185,12 @@ body {
     background: none;
   }
 
+  mark.medium{
+    font-size:medium;
+    color: black;
+    background: none;
+  }
+
   ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color:rgb(197, 197, 197);
   }
@@ -204,6 +214,3 @@ body {
     border-width: 2px
   }
 
-  #resetButtonCol{
-    margin: auto;
-  }
