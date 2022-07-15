@@ -239,13 +239,13 @@ function generateSubtitles(){
     var apiKeyInput = document.getElementById('apiKeyInput').value;
     var subtitlesTextarea = document.getElementById('subtitlesTextarea');
     var numOfSubsInput = document.getElementById("numOfSubsInput").value;
-    subtitlesTextarea.value = 'Generating...';
     var model = document.getElementById('modelSelect').value;
     var maxToken = document.getElementById('maxTokenInput').value;
     var temperature = document.getElementById('tempInput').value;
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
     var freqPenalty = document.getElementById('freqPenaltyInput').value;
     var prompt = document.getElementById('promptTextarea').value;
+    var genResultTextarea = document.getElementById('genResultTextarea');
     if (apiKeyInput.length==0){
         alert('You must specify the API Key.');
         return;
@@ -254,10 +254,18 @@ function generateSubtitles(){
         alert('Prompt cannot be empty.');
         return;
     }
-    if ((numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0')&&prompt.length==0){
-        alert('Number of subtitles must be set larger than 0.');
-        return;
+    // if ((numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0')&&prompt.length==0){
+    //     alert('Number of subtitles must be set larger than 0.');
+    //     return;
+    // }
+
+    let hasSubtitle = promptTextarea.value.toLowerCase().includes('subtitle');
+    if (hasSubtitle){
+        subtitlesTextarea.value = 'Generating...';
+    }else{
+        genResultTextarea.value = 'Generating...';
     }
+    
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
@@ -266,7 +274,6 @@ function generateSubtitles(){
             if (this.status === 200){
                 var jsonObj = JSON.parse(this.responseText);
                 console.log(jsonObj);
-                // subtitlesTextarea.value = jsonObj.choices[0].text;
                 var reg = /\d+\.(.*)/
                 var subtitleStr = jsonObj.choices[0].text;
                 var subtitles = subtitleStr.split("\n");
@@ -286,10 +293,24 @@ function generateSubtitles(){
                         }
                     }
                 }
-                subtitlesTextarea.value = results.join("\n");
-                localStorage.setItem("subtitlesTextarea", subtitlesTextarea.value);
+
+                if (hasSubtitle){
+                    subtitlesTextarea.value = results.join("\n");
+                    localStorage.setItem("subtitlesTextarea", subtitlesTextarea.value);
+                }else{
+                    genResultTextarea.value = results.join("\n");
+                    localStorage.setItem("genResultTextarea", genResultTextarea.value);
+                }
+
             }else if (this.status === 400 || this.status === 401){
-                subtitlesTextarea.value = '';
+                if (hasSubtitle){
+                    subtitlesTextarea.value = '';
+                    localStorage.setItem("subtitlesTextarea", '');
+                }else{
+                    genResultTextarea.value = '';
+                    localStorage.setItem("genResultTextarea", '');
+                }
+                
                 alert(this.responseText);
             }
         }
