@@ -147,7 +147,7 @@ function generatePrompt(){
     }
 
     var elements = [];
-    elements = ['write a amazon product description about "'];
+    elements = ['write a amazing product description about "'];
     if(productName!==''){
         elements.push(productName);
         elements.push('"')
