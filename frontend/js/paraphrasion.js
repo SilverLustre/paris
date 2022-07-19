@@ -132,6 +132,7 @@ contentClrBt.onclick = function(){
 
 function generatePrompt(){
     console.log("generatePrompt");
+    var apiKeyInput = document.getElementById('apiKeyInput').value;
 
     var tone = document.getElementById("toneInput").value;
     var targetAudience = document.getElementById("targetAudienceInput").value;
@@ -139,13 +140,19 @@ function generatePrompt(){
     var keywords = document.getElementById("keywordsInput").value;
     var paraContent = document.getElementById("contentTextarea").value;
 
+    var model = document.getElementById('modelSelect').value;
+    var maxToken = document.getElementById('maxTokenInput').value;
+    var temperature = document.getElementById('tempInput').value;
+    var presencePenalty = document.getElementById('presencePenaltyInput').value;
+    var freqPenalty = document.getElementById('freqPenaltyInput').value;
+
     if (paraContent===''){
         alert('You must input paraphrase source!');
         return;
     }
 
     var elements = []
-    elements = ['Paraphase the following text']
+    elements = ['Paraphrase the following text']
     if (targetAudience!==''){
         elements.push('targeting the audience of');
         elements.push(targetAudience);
@@ -163,12 +170,45 @@ function generatePrompt(){
       elements.push('with keywords:')
       elements.push(keywords)
     }
+    elements.push(', text:')
+    var promptPrefix = elements.join(' ');
 
-    elements.push(', text:"')
-    elements.push(paraContent)
-    elements.push('".')
-
-    promptTextarea.value = elements.join(' ');
+    if(outputLanguage!==''){
+      var translatedPromptPrefix = "";
+      var examplePrompt = "Task: Translate the source text into Spanish.\nSource text: Paraphrase the following text targeting the audience of kids in Casual tone in Spanish, with keyword: young, future. Text:\nTarget text: Parafrasea el siguiente texto dirigido al público infantil en tono Casual en español, con palabra clave: joven, futuro. Texto:"
+      var targetPrompt = '\nTask: Translate the source text into '+outputLanguage+':\nSource text:"'+promptPrefix+'"\nTarget text:\n';
+      var prmpt = examplePrompt+targetPrompt;
+      console.log(prmpt);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function(){
+          if (this.readyState === 4){
+              // complete
+              if (this.status === 200){
+                  var jsonObj = JSON.parse(this.responseText);
+                  console.log(jsonObj);
+                  translatedPromptPrefix = jsonObj.choices[0].text;
+                  translatedPromptPrefix = translatedPromptPrefix.trim().replace(/^"(.+(?="$))"$/,'$1');
+                  console.log(translatedPromptPrefix);
+                  promptTextarea.value = translatedPromptPrefix+paraContent;
+              }
+          }
+      }
+      xhttp.open("POST","https://api.openai.com/v1/completions");
+      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
+      xhttp.send(JSON.stringify({
+          "model": "text-davinci-002",
+          "temperature": 0,
+          "max_tokens": 500,
+          "frequency_penalty":0,
+          "presence_penalty": 0,
+          "prompt": prmpt
+      }),true);
+    }else{
+      elements.push(paraContent);
+      prmpt = elements.join(' ');
+      promptTextarea.value = prmpt;
+    }
 }
 
 var genPromptBt = document.getElementById("genPromptBt");

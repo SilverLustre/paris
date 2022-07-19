@@ -242,7 +242,12 @@
 
                     <!-- Product Description Block-->
                     <div class="row" id="contentBlock">
-                        <div class="col-12"><h3>Product Description</h3></div>
+                        <div class="col-4 tooltip"><h3>Basic Description</h3>
+                          <span class="tooltiptext">Input basic product description here to let Paris know about your product.
+                            <br> <mark class="yellow"><b>Language should be same as the output language</b></mark>
+                          </span>
+                        </div>
+
                         <textarea name="" id="contentTextarea" cols="30" rows="13" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-11">
@@ -260,7 +265,9 @@
 
                     <!-- Prompt Block -->
                     <div class="row" id="promptBlock">
-                        <div class="col-12"><h3>Prompt</h3></div>
+                        <div class="col-4 tooltip"><h3>Prompt</h3>
+                          <span class="tooltiptext">Prompt for Paris to generate final result. Edit if you'd like to change something</span>
+                        </div>
                         <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-12">
@@ -274,7 +281,7 @@
                     <!-- Result Block -->
                     <div class="row" id="resultBlock">
                         <div class="col-12"><h3>Result</h3></div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea"></textarea>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="24" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>
