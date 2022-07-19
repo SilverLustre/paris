@@ -223,7 +223,13 @@
 
                     <!-- Paraphrase Block-->
                     <div class="row" id="contentBlock">
-                        <div class="col-12"><h3>Paraphrase Source</h3></div>
+                        <div class="col-4 tooltip"><h3>Paraphrase Source</h3>
+                          <span class="tooltiptext">Input text that needs paraphrase.
+                            <br> <mark class="yellow"><b>Language should be same as the output language</b></mark>
+                            <br> Text should end with <mark class="yellow"><b>.</b></mark>
+                          </span>
+                        </div>
+
                         <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-11">
@@ -241,7 +247,9 @@
 
                     <!-- Prompt Block -->
                     <div class="row" id="promptBlock">
-                        <div class="col-12"><h3>Prompt</h3></div>
+                        <div class="col-4 tooltip"><h3>Prompt</h3>
+                            <span class="tooltiptext">Prompt for Paris to generate final result. Edit if you'd like to change something</span>
+                        </div>
                         <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-12">
@@ -254,8 +262,13 @@
 
                     <!-- Result Block -->
                     <div class="row" id="resultBlock">
-                        <div class="col-12"><h3>Result</h3></div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="27" class="circleTextarea"></textarea>
+                        <div class="col-4 tooltip"><h3>Result</h3>
+                            <span class="tooltiptext">If you found the result not satisfiying, try to adjust the
+                                <br> <mark class="yellow"><b>Presence Penalty</b></mark> and
+                                <mark class="yellow"><b>Presence Penalty</b></mark> several times.
+                            </span>
+                        </div>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>
