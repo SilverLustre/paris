@@ -98,16 +98,19 @@ resetBt.onclick = function(){
 var toneClrBt = document.getElementById("toneClrBt");
 toneClrBt.onclick = function(){
     document.getElementById("toneInput").value = '';
+    localStorage.setItem("toneInput", '');
 }
 
 var targetAudienceClrBt = document.getElementById("targetAudienceClrBt");
 targetAudienceClrBt.onclick = function(){
     document.getElementById("targetAudienceInput").value = '';
+    localStorage.setItem("targetAudienceInput", '');
 }
 
 var outputLanguageClrBt = document.getElementById("outputLanguageClrBt");
 outputLanguageClrBt.onclick = function(){
     document.getElementById("outputLanguageInput").value = '';
+    localStorage.setItem("outputLanguageInput", '');
 }
 
 //Email Content Block
@@ -161,6 +164,7 @@ function generatePrompt(){
     elements.push('".')
 
     promptTextarea.value = elements.join(' ');
+    localStorage.setItem("promptTextarea", promptTextarea.value);
 }
 
 var genPromptBt = document.getElementById("genPromptBt");
@@ -196,6 +200,7 @@ function generateReply(){
                 console.log(jsonObj);
                 var resultStr = jsonObj.choices[0].text;
                 resultTextarea.value = resultStr;
+                localStorage.setItem("resultTextarea", resultTextarea.value);
             }
         }
     }

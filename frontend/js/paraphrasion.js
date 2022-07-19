@@ -52,6 +52,7 @@ document.getElementById("apiKeyInput").value = getSavedValue("apiKeyInput");
 document.getElementById("toneInput").value = getSavedValue("toneInput");
 document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
 document.getElementById("outputLanguageInput").value = getSavedValue("outputLanguageInput");
+document.getElementById("keywordsInput").value = getSavedValue("keywordsInput");
 document.getElementById("contentTextarea").value = getSavedValue("contentTextarea");
 
 if (localStorage.getItem("modelSelect")!==null){
@@ -68,6 +69,9 @@ if (localStorage.getItem("presencePenaltyInput")!=null){
 }
 if (localStorage.getItem("freqPenaltyInput")!==null){
     document.getElementById("freqPenaltyInput").value = getSavedValue("freqPenaltyInput");
+}
+if (localStorage.getItem("contentTextarea")!==null){
+    document.getElementById("contentTextarea").value = getSavedValue("contentTextarea");
 }
 if (localStorage.getItem("contentTextarea")!==null){
     document.getElementById("contentTextarea").value = getSavedValue("contentTextarea");
@@ -98,21 +102,25 @@ resetBt.onclick = function(){
 var toneClrBt = document.getElementById("toneClrBt");
 toneClrBt.onclick = function(){
     document.getElementById("toneInput").value = '';
+    localStorage.setItem("toneInput", '');
 }
 
 var targetAudienceClrBt = document.getElementById("targetAudienceClrBt");
 targetAudienceClrBt.onclick = function(){
     document.getElementById("targetAudienceInput").value = '';
+    localStorage.setItem("targetAudienceInput", '');
 }
 
 var outputLanguageClrBt = document.getElementById("outputLanguageClrBt");
 outputLanguageClrBt.onclick = function(){
     document.getElementById("outputLanguageInput").value = '';
+    localStorage.setItem("outputLanguageInput", '');
 }
 
 var keywordsClrBt = document.getElementById("keywordsClrBt");
 keywordsClrBt.onclick = function(){
     document.getElementById("keywordsInput").value = '';
+    localStorage.setItem("keywordsInput", '');
 }
 
 //Paraphrase Block
@@ -125,6 +133,7 @@ contentCpBt.onclick = function(){
 var contentClrBt = document.getElementById("contentClrBt")
 contentClrBt.onclick = function(){
   document.getElementById("contentTextarea").value = '';
+  localStorage.setItem("contentTextarea", '');
 }
 
 
@@ -190,6 +199,7 @@ function generatePrompt(){
                   translatedPromptPrefix = translatedPromptPrefix.trim().replace(/^"(.+(?="$))"$/,'$1');
                   console.log(translatedPromptPrefix);
                   promptTextarea.value = translatedPromptPrefix+paraContent;
+                  localStorage.setItem("promptTextarea", promptTextarea.value);
               }
           }
       }
@@ -243,6 +253,7 @@ function generateResult(){
                 console.log(jsonObj);
                 var resultStr = jsonObj.choices[0].text;
                 resultTextarea.value = resultStr;
+                localStorage.setItem("resultTextarea", resultTextarea.value);
             }
         }
     }
@@ -268,6 +279,7 @@ promptCpBt.onclick = function(){
 var promptClrBt = document.getElementById("promptClrBt");
 promptClrBt.onclick = function(){
     promptTextarea.value='';
+    localStorage.setItem("promptTextarea", '');
 }
 
 var promptGenResultBt = document.getElementById("promptGenResultBt");
@@ -286,4 +298,5 @@ genResultCpBt.onclick = function(){
 var genResultClrBt = document.getElementById("genResultClrBt");
 genResultClrBt.onclick = function(){
     document.getElementById("genResultTextarea").value = "";
+    localStorage.setItem("genResultTextarea", '');
 }

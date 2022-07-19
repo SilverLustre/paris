@@ -53,7 +53,7 @@ document.getElementById("productNameInput").value = getSavedValue("productNameIn
 document.getElementById("toneInput").value = getSavedValue("toneInput");
 document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
 document.getElementById("outputLanguageInput").value = getSavedValue("outputLanguageInput");
-
+document.getElementById("typeInput").value = getSavedValue("typeInput");
 if (localStorage.getItem("modelSelect")!==null){
     document.getElementById("modelSelect").value = getSavedValue("modelSelect");
 }
@@ -98,21 +98,31 @@ resetBt.onclick = function(){
 var productNameClrBt = document.getElementById("productNameClrBt");
 productNameClrBt.onclick = function(){
   document.getElementById("productNameInput").value = '';
+  localStorage.setItem("productNameInput", '');
 }
 
 var toneClrBt = document.getElementById("toneClrBt");
 toneClrBt.onclick = function(){
     document.getElementById("toneInput").value = '';
+    localStorage.setItem("toneInput", '');
 }
 
 var targetAudienceClrBt = document.getElementById("targetAudienceClrBt");
 targetAudienceClrBt.onclick = function(){
     document.getElementById("targetAudienceInput").value = '';
+    localStorage.setItem("targetAudienceInput", '');
 }
 
 var outputLanguageClrBt = document.getElementById("outputLanguageClrBt");
 outputLanguageClrBt.onclick = function(){
     document.getElementById("outputLanguageInput").value = '';
+    localStorage.setItem("outputLanguageInput", '');
+}
+
+var typeClrBt = document.getElementById("typeClrBt");
+typeClrBt.onclick = function(){
+    document.getElementById("typeInput").value = '';
+    localStorage.setItem("typeInput", '');
 }
 
 //Product Description Block
@@ -125,6 +135,7 @@ contentCpBt.onclick = function(){
 var contentClrBt = document.getElementById("contentClrBt")
 contentClrBt.onclick = function(){
   document.getElementById("contentTextarea").value = '';
+  localStorage.setItem("contentTextarea", '');
 }
 
 
@@ -135,19 +146,28 @@ function generatePrompt(){
     var tone = document.getElementById("toneInput").value;
     var targetAudience = document.getElementById("targetAudienceInput").value;
     var outputLanguage = document.getElementById("outputLanguageInput").value;
+    var typeInput = document.getElementById("typeInput").value;
     var productDescription = document.getElementById("contentTextarea").value;
 
     if (productName===''){
-        alert('You must input product name!')
+        alert('You must input product name!');
+        return;
+    }
+    if (typeInput===''){
+        alert('You must input type!');
         return;
     }
     if (productDescription===''){
-        alert('You must input email content!');
+        alert('You must input basic description!');
         return;
     }
 
     var elements = [];
-    elements = ['write an amazing product/service description about "'];
+    elements = ['write an amazing'];
+    if (typeInput!==''){
+        elements.push(typeInput);
+    }
+    elements.push('description about "');
     if(productName!==''){
         elements.push(productName);
         elements.push('"')
@@ -174,6 +194,7 @@ function generatePrompt(){
     elements[elements.length-1] += '.';
 
     promptTextarea.value = elements.join(' ');
+    localStorage.setItem("promptTextarea", promptTextarea.value);
 }
 
 var genPromptBt = document.getElementById("genPromptBt");
@@ -209,6 +230,7 @@ function generateDescription(){
                 console.log(jsonObj);
                 var resultStr = jsonObj.choices[0].text;
                 resultTextarea.value = resultStr;
+                localStorage.setItem("resultTextarea", resultTextarea.value);
             }
         }
     }
@@ -234,6 +256,7 @@ promptCpBt.onclick = function(){
 var promptClrBt = document.getElementById("promptClrBt");
 promptClrBt.onclick = function(){
     promptTextarea.value='';
+    localStorage.setItem("promptTextarea", '');
 }
 
 var promptGenDescriptionBt = document.getElementById("promptGenDescriptionBt");
@@ -252,4 +275,5 @@ genResultCpBt.onclick = function(){
 var genResultClrBt = document.getElementById("genResultClrBt");
 genResultClrBt.onclick = function(){
     document.getElementById("genResultTextarea").value = "";
+    localStorage.setItem("genResultTextarea", '');
 }

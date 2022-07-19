@@ -73,14 +73,14 @@
                         <div class="row">
                             <div class="col-4">Product Name</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" placeholder="Queens' album" id="productNameInput">
+                                <input type="text" class="circleTextInput" placeholder="Queens' album" id="productNameInput" onkeyup='saveValue(this);'>
                                 <button class="circleButton" id="productNameClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Tone</div>
                             <div class="col-8">
-                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput">
+                                <input type="text" list="toneList" class="circleTextInput" placeholder="casual and joyful" id="toneInput" onkeyup='saveValue(this);'>
                                 <datalist id="toneList">
                                     <option>Appreciative</option>
                                     <option>Assertive</option>
@@ -116,19 +116,30 @@
                         <div class="row">
                             <div class="col-4">Target Audience</div>
                             <div class="col-8">
-                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput">
+                                <input type="text" class="circleTextInput" placeholder="high school students" id="targetAudienceInput" onkeyup='saveValue(this);'>
                                 <button class="circleButton" id="targetAudienceClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-4">Output Language</div>
                             <div class="col-8">
-                                <input type="text" list="languageList" class="circleTextInput" placeholder="English" id="outputLanguageInput">
+                                <input type="text" list="languageList" class="circleTextInput" placeholder="English" id="outputLanguageInput" onkeyup='saveValue(this);'>
                                 <datalist id = "languageList">
                                      <option> English </option>
                                      <option> Spanish </option>
                                 </datalist>
                                 <button class="circleButton" id="outputLanguageClrBt">Clear</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Type</div>
+                            <div class="col-8">
+                                <input type="text" list="typeList" class="circleTextInput" placeholder="product" id="typeInput" onkeyup='saveValue(this);'>
+                                <datalist id="typeList">
+                                    <option>product</option>
+                                    <option>service</option>
+                                </datalist>
+                                <button class="circleButton" id="typeClrBt">Clear</button>
                             </div>
                         </div>
                     </div>
@@ -231,13 +242,6 @@
                                 <input type="number" step="0.1" min="-2" max="2" value="0" class="circleTextInput" id="freqPenaltyInput" onkeyup='saveValue(this);' oninput="saveValue(this);">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <button class="circleButton" id="modelParamsGenPromptBt">Generate Prompt</button>
-                                <!-- <button class="circleButton" id="modelParamsGenArticleBt">Generate Article</button> -->
-                            </div>
-                        </div>
-
                     </div>
 
                     <!-- Product Description Block-->
@@ -248,7 +252,7 @@
                           </span>
                         </div>
 
-                        <textarea name="" id="contentTextarea" cols="30" rows="13" class="circleTextarea"></textarea>
+                        <textarea name="" id="contentTextarea" cols="30" rows="14" class="circleTextarea"></textarea>
                         <div class="row">
                             <div class="col-11">
                                 <button class="circleButton" id="contentCpBt">Copy</button>

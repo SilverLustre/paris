@@ -230,7 +230,7 @@
                           </span>
                         </div>
 
-                        <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea"></textarea>
+                        <textarea name="" id="contentTextarea" cols="30" rows="16" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-11">
                                 <button class="circleButton" id="contentCpBt">Copy</button>
@@ -250,7 +250,7 @@
                         <div class="col-4 tooltip"><h3>Prompt</h3>
                             <span class="tooltiptext">Prompt for Paris to generate final result. Edit if you'd like to change something</span>
                         </div>
-                        <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea"></textarea>
+                        <textarea name="" id="promptTextarea" cols="30" rows="20" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="promptCpBt">Copy</button>
@@ -268,7 +268,7 @@
                                 <mark class="yellow"><b>Presence Penalty</b></mark> several times.
                             </span>
                         </div>
-                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea"></textarea>
+                        <textarea name="" id="genResultTextarea" cols="30" rows="25" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                         <div class="row">
                             <div class="col-12">
                                 <button class="circleButton" id="genResultCpBt">Copy</button>
