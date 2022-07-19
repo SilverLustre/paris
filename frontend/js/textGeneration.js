@@ -302,7 +302,7 @@ function generateSubtitles(){
                     localStorage.setItem("genResultTextarea", genResultTextarea.value);
                 }
 
-            }else if (this.status === 400 || this.status === 401){
+            }else if (Math.floor(this.status/100)===4){
                 if (hasSubtitle){
                     subtitlesTextarea.value = '';
                     localStorage.setItem("subtitlesTextarea", '');
@@ -312,6 +312,7 @@ function generateSubtitles(){
                 }
                 
                 alert(this.responseText);
+                return;
             }
         }
     }
@@ -329,6 +330,118 @@ function generateSubtitles(){
 
 }
 
+function generateArticleTranslated(){
+    console.log('generateSubtitles');
+    var apiKeyInput = document.getElementById('apiKeyInput').value;
+    var subtitlesTextarea = document.getElementById('subtitlesTextarea');
+    var numOfSubsInput = document.getElementById("numOfSubsInput").value;
+    var language = document.getElementById("langInput").value;
+    var model = document.getElementById('modelSelect').value;
+    var maxToken = document.getElementById('maxTokenInput').value;
+    var temperature = document.getElementById('tempInput').value;
+    var presencePenalty = document.getElementById('presencePenaltyInput').value;
+    var freqPenalty = document.getElementById('freqPenaltyInput').value;
+    var prompt = document.getElementById('promptTextarea').value;
+    var genResultTextarea = document.getElementById('genResultTextarea');
+    if (apiKeyInput.length==0){
+        alert('You must specify the API Key.');
+        return;
+    }
+    if (prompt.length==0){
+        alert('Prompt cannot be empty.');
+        return;
+    }
+    // if ((numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0')&&prompt.length==0){
+    //     alert('Number of subtitles must be set larger than 0.');
+    //     return;
+    // }
+
+    genResultTextarea.value = 'Generating...';
+
+    // translate the prompt into target language
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+        if (this.readyState === 4){
+            if (this.status === 200){
+                var jsonObj = JSON.parse(this.responseText);
+                var translatedPrompt = jsonObj.choices[0].text.trim();
+                console.log("translatedPrompt:\n" + translatedPrompt);
+
+                // generate result
+                var xhttp2 = new XMLHttpRequest();
+                xhttp2.onreadystatechange = function(){
+                    if (this.readyState === 4){
+                        // complete
+                        if (this.status === 200){
+                            var jsonObj = JSON.parse(this.responseText);
+                            console.log(jsonObj);
+                            var reg = /\d+\.(.*)/
+                            var subtitleStr = jsonObj.choices[0].text;
+                            var subtitles = subtitleStr.split("\n");
+                            var results = [];
+                            for (let i = 0; i < subtitles.length; i++) {
+                                if (subtitles[i].length>0){
+                                    var matchResult = subtitles[i].match(reg);
+                                    if (matchResult!=null&&matchResult.length>=2){
+                                        results.push(matchResult[1].trim());
+                                    }
+                                }
+                            }
+                            if (results.length==0){
+                                for (let i = 0; i < subtitles.length; i++) {
+                                    if (subtitles[i].length>0){
+                                        results.push(subtitles[i].trim());
+                                    }
+                                }
+                            }
+                            genResultTextarea.value = results.join("\n");
+                            localStorage.setItem("genResultTextarea", genResultTextarea.value);
+            
+                        }else if (Math.floor(this.status/100)===4){
+                            genResultTextarea.value = '';
+                            localStorage.setItem("genResultTextarea", '');
+                            alert(this.responseText);
+                            return;
+                        }
+                    }
+                }
+                xhttp2.open("POST","https://api.openai.com/v1/completions");
+                xhttp2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhttp2.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
+                xhttp2.send(JSON.stringify({
+                    "model": model,
+                    "temperature": parseFloat(temperature),
+                    "max_tokens": parseInt(maxToken),
+                    "frequency_penalty":parseFloat(freqPenalty),
+                    "presence_penalty": parseFloat(presencePenalty),
+                    "prompt": translatedPrompt
+                }),true);
+
+            }else if (Math.floor(this.status/100)===4){
+                alert(this.responseText);
+                return;
+            }
+        }
+    }
+    xhttp.open("POST","https://api.openai.com/v1/completions");
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
+    xhttp.send(JSON.stringify({
+        "model": model,
+        "temperature": parseFloat(0),
+        "max_tokens": parseInt(1024),
+        // "frequency_penalty":parseFloat(freqPenalty),
+        // "presence_penalty": parseFloat(presencePenalty),
+        // "prompt": 'Translate the source text to '+language+'.\nSource text: '+prompt+'\nTarget text:'
+        "prompt": 'Task: Translate the source text to Spanish.\nSource text: Use Spanish to write a social media about the creativity of Apple Inc. in professional tone targeting the audience of students with keywords: Steve Jobs.\nResponse: Usa el español para escribir un social media sobre la creatividad de Apple Inc. en un tono profesional dirigido a la audiencia de estudiantes con palabras clave: Steve Jobs.\n\nTask: Translate the source text to '+language+'.\nSource text: '+prompt+'\nResponse:'
+
+    }),true);
+    
+
+
+
+}
+
 var promptCpBt = document.getElementById("promptCpBt");
 promptCpBt.onclick = function(){
     navigator.clipboard.writeText(promptTextarea.value);
@@ -342,7 +455,13 @@ promptClrBt.onclick = function(){
 
 var promptGenSubsBt = document.getElementById("promptGenSubsBt");
 promptGenSubsBt.onclick = function(){
-    generateSubtitles();
+    // generateSubtitles();
+    let hasSubtitle = promptTextarea.value.toLowerCase().includes('subtitle');
+    if (langInput.value !==''&&langInput.value.toLowerCase() !== 'english'&&!hasSubtitle){
+        generateArticleTranslated();
+    }else{
+        generateSubtitles();
+    }
 }
 
 // var promptGenArticleBt = document.getElementById("promptGenArticleBt");
@@ -431,7 +550,7 @@ function subtitlesToArticleTranslated(){
                         var jsonObj = JSON.parse(this.responseText);
                         // result.push(jsonObj.choices[0].text);
                         resolve(jsonObj.choices[0].text);
-                    }else if (this.status === 400 || this.status === 401){
+                    }else if (Math.floor(this.status/100)===4){
                         // genResultTextarea.value = '';
                         // alert(this.responseText);
                         // return;
@@ -449,7 +568,8 @@ function subtitlesToArticleTranslated(){
                 "max_tokens": parseInt(1024),
                 // "frequency_penalty":parseFloat(freqPenalty),
                 // "presence_penalty": parseFloat(presencePenalty),
-                "prompt": 'Translate the source text to '+language+'.\nSource text:"'+prmpt+'"\nTarget text:'
+                // "prompt": 'Translate the source text to '+language+'.\nSource text:"'+prmpt+'"\nTarget text:'
+                "prompt": "Task: Translate the source text to Spanish.\nSource text: Use Spanish to write a social media about the creativity of Apple Inc. in professional tone targeting the audience of students with keywords: Steve Jobs.\nResponse: Usa el español para escribir un social media sobre la creatividad de Apple Inc. en un tono profesional dirigido a la audiencia de estudiantes con palabras clave: Steve Jobs.\n\nTask: Translate the source text to "+language+".\nSource text: "+prmpt+"\nResponse:"
             }),true);
         }))
     }
@@ -476,7 +596,7 @@ function subtitlesToArticleTranslated(){
                             var jsonObj = JSON.parse(this.responseText);
                             // result.push(jsonObj.choices[0].text);
                             resolve(jsonObj.choices[0].text);
-                        }else if (this.status === 400 || this.status === 401){
+                        }else if (Math.floor(this.status/100)===4){
                             // genResultTextarea.value = '';
                             // alert(this.responseText);
                             // return;
@@ -590,7 +710,7 @@ function subtitlesToArticle(){
                         var jsonObj = JSON.parse(this.responseText);
                         // result.push(jsonObj.choices[0].text);
                         resolve(jsonObj.choices[0].text);
-                    }else if (this.status === 400 || this.status === 401){
+                    }else if (Math.floor(this.status/100)===4){
                         // genResultTextarea.value = '';
                         // alert(this.responseText);
                         // return;
