@@ -211,6 +211,11 @@ function generateResult(){
                 var resultStr = jsonObj.choices[0].text;
                 resultTextarea.value = resultStr;
                 localStorage.setItem("resultTextarea", resultTextarea.value);
+            }else if (Math.floor(this.status/100)===4){
+                resultTextarea.value = '';
+                localStorage.setItem("resultTextarea", '');
+                alert(this.responseText);
+                return;
             }
         }
     }

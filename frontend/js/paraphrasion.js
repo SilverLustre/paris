@@ -194,12 +194,17 @@ function generatePrompt(){
               // complete
               if (this.status === 200){
                   var jsonObj = JSON.parse(this.responseText);
-                  console.log(jsonObj);
+                  //console.log(jsonObj);
                   translatedPromptPrefix = jsonObj.choices[0].text;
                   translatedPromptPrefix = translatedPromptPrefix.trim().replace(/^"(.+(?="$))"$/,'$1');
-                  console.log(translatedPromptPrefix);
+                  //console.log(translatedPromptPrefix);
                   promptTextarea.value = translatedPromptPrefix+paraContent;
                   localStorage.setItem("promptTextarea", promptTextarea.value);
+              }else if (Math.floor(this.status/100)===4){
+                  promptTextarea.value = '';
+                  localStorage.setItem("promptTextarea", '');
+                  alert(this.responseText);
+                  return;
               }
           }
       }
@@ -254,6 +259,11 @@ function generateResult(){
                 var resultStr = jsonObj.choices[0].text;
                 resultTextarea.value = resultStr;
                 localStorage.setItem("resultTextarea", resultTextarea.value);
+            }else if (Math.floor(this.status/100)===4){
+                resultTextarea.value = '';
+                localStorage.setItem("resultTextarea", '');
+                alert(this.responseText);
+                return;
             }
         }
     }
