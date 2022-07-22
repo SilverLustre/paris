@@ -45,9 +45,12 @@ if (localStorage.getItem("numOfSubsInput")!==null){
     document.getElementById("numOfSubsInput").value = getSavedValue("numOfSubsInput");
 }
 document.getElementById("langInput").value = getSavedValue("langInput");
-if (localStorage.getItem("modelSelect")!==null){
-    document.getElementById("modelSelect").value = getSavedValue("modelSelect");
-}
+// if (localStorage.getItem("modelSelect")!==null){
+//     document.getElementById("modelSelect").value = getSavedValue("modelSelect");
+// }
+document.getElementById("genModelInput").value = getSavedValue("genModelInput");
+document.getElementById("transModelInput").value = getSavedValue("transModelInput");
+
 if (localStorage.getItem("maxTokenInput")!==null){
     document.getElementById("maxTokenInput").value = getSavedValue("maxTokenInput");
 }
@@ -138,12 +141,24 @@ langClrBt.onclick = function(){
 
 // Model Parameters Block
 
+var genModelInputClrBt = document.getElementById("genModelInputClrBt");
+genModelInputClrBt.onclick = function(){
+    document.getElementById("genModelInput").value = '';
+    localStorage.setItem("genModelInput", '');
+}
+
+var transModelInputClrBt = document.getElementById("transModelInputClrBt");
+transModelInputClrBt.onclick = function(){
+    document.getElementById("transModelInput", '').value = '';
+    localStorage.setItem("transModelInput", '');
+}
+
 var promptTextarea = document.getElementById("promptTextarea");
 
 
 function generatePrompt(){
     console.log("generatePrompt");
-    
+    promptTextarea.value = 'Generating...';
     var numOfSubsInput = document.getElementById("numOfSubsInput").value;
     var textType = document.getElementById("textTypeInput").value;
     textType = textType===''?'article':textType;
@@ -155,6 +170,8 @@ function generatePrompt(){
 
     if (topic===''){
         alert('You must specify a topic!');
+        promptTextarea.value = '';
+        localStorage.setItem("promptTextarea", '');
         return;
     }
     
@@ -222,9 +239,6 @@ function generatePrompt(){
     localStorage.setItem("promptTextarea", promptTextarea.value);
 }
 
-
-
-
 var modelParamsGenPromptBt = document.getElementById("modelParamsGenPromptBt");
 modelParamsGenPromptBt.onclick = function(){
     generatePrompt();
@@ -239,7 +253,7 @@ function generateSubtitles(){
     var apiKeyInput = document.getElementById('apiKeyInput').value;
     var subtitlesTextarea = document.getElementById('subtitlesTextarea');
     var numOfSubsInput = document.getElementById("numOfSubsInput").value;
-    var model = document.getElementById('modelSelect').value;
+    var genModel = document.getElementById('genModelInput').value;
     var maxToken = document.getElementById('maxTokenInput').value;
     var temperature = document.getElementById('tempInput').value;
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
@@ -313,6 +327,16 @@ function generateSubtitles(){
                 
                 alert(this.responseText);
                 return;
+            }else{
+                if (hasSubtitle){
+                    subtitlesTextarea.value = '';
+                    localStorage.setItem("subtitlesTextarea", '');
+                }else{
+                    genResultTextarea.value = '';
+                    localStorage.setItem("genResultTextarea", '');
+                }
+                alert(this.responseText);
+                return;
             }
         }
     }
@@ -320,7 +344,7 @@ function generateSubtitles(){
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
     xhttp.send(JSON.stringify({
-        "model": model,
+        "model": genModel,
         "temperature": parseFloat(temperature),
         "max_tokens": parseInt(maxToken),
         "frequency_penalty":parseFloat(freqPenalty),
@@ -336,7 +360,8 @@ function generateArticleTranslated(){
     var subtitlesTextarea = document.getElementById('subtitlesTextarea');
     var numOfSubsInput = document.getElementById("numOfSubsInput").value;
     var language = document.getElementById("langInput").value;
-    var model = document.getElementById('modelSelect').value;
+    var genModel = document.getElementById('genModelInput').value;
+    var transModel = document.getElementById("transModelInput").value;
     var maxToken = document.getElementById('maxTokenInput').value;
     var temperature = document.getElementById('tempInput').value;
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
@@ -402,6 +427,11 @@ function generateArticleTranslated(){
                             localStorage.setItem("genResultTextarea", '');
                             alert(this.responseText);
                             return;
+                        }else {
+                            genResultTextarea.value = '';
+                            localStorage.setItem("genResultTextarea", '');
+                            alert(this.responseText);
+                            return;
                         }
                     }
                 }
@@ -409,7 +439,7 @@ function generateArticleTranslated(){
                 xhttp2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhttp2.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
                 xhttp2.send(JSON.stringify({
-                    "model": model,
+                    "model": genModel,
                     "temperature": parseFloat(temperature),
                     "max_tokens": parseInt(maxToken),
                     "frequency_penalty":parseFloat(freqPenalty),
@@ -427,7 +457,7 @@ function generateArticleTranslated(){
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
     xhttp.send(JSON.stringify({
-        "model": model,
+        "model": transModel,
         "temperature": parseFloat(0),
         "max_tokens": parseInt(1024),
         // "frequency_penalty":parseFloat(freqPenalty),
@@ -477,7 +507,8 @@ function subtitlesToArticleTranslated(){
     var apiKeyInput = document.getElementById('apiKeyInput').value;
     var subtitlesTextarea = document.getElementById("subtitlesTextarea");
     var subtitles = subtitlesTextarea.value.split(/\r?\n/);
-    var model = document.getElementById('modelSelect').value;
+    var genModel = document.getElementById('genModelInput').value;
+    var transModel = document.getElementById('transModelInput').value;
     var maxToken = document.getElementById('maxTokenInput').value;
     var temperature = document.getElementById('tempInput').value;
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
@@ -555,6 +586,8 @@ function subtitlesToArticleTranslated(){
                         // alert(this.responseText);
                         // return;
                         reject(this.responseText);
+                    }else{
+                        reject(this.responseText);
                     }
                 }
             }
@@ -563,7 +596,7 @@ function subtitlesToArticleTranslated(){
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
             xhttp.send(JSON.stringify({
-                "model": model,
+                "model": transModel,
                 "temperature": parseFloat(0),
                 "max_tokens": parseInt(1024),
                 // "frequency_penalty":parseFloat(freqPenalty),
@@ -601,6 +634,8 @@ function subtitlesToArticleTranslated(){
                             // alert(this.responseText);
                             // return;
                             reject(this.responseText);
+                        }else {
+                            reject(this.responseText);
                         }
                     }
                 }
@@ -609,7 +644,7 @@ function subtitlesToArticleTranslated(){
                 xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
                 xhttp.send(JSON.stringify({
-                    "model": model,
+                    "model": genModel,
                     "temperature": parseFloat(temperature),
                     "max_tokens": parseInt(maxToken),
                     "frequency_penalty":parseFloat(freqPenalty),
@@ -645,7 +680,7 @@ function subtitlesToArticle(){
     var apiKeyInput = document.getElementById('apiKeyInput').value;
     var subtitlesTextarea = document.getElementById("subtitlesTextarea");
     var subtitles = subtitlesTextarea.value.split(/\r?\n/);
-    var model = document.getElementById('modelSelect').value;
+    var genModel = document.getElementById('genModelInput').value;
     var maxToken = document.getElementById('maxTokenInput').value;
     var temperature = document.getElementById('tempInput').value;
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
@@ -715,6 +750,8 @@ function subtitlesToArticle(){
                         // alert(this.responseText);
                         // return;
                         reject(this.responseText);
+                    }else{
+                        reject(this.responseText);
                     }
                 }
             }
@@ -723,7 +760,7 @@ function subtitlesToArticle(){
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
             xhttp.send(JSON.stringify({
-                "model": model,
+                "model": genModel,
                 "temperature": parseFloat(temperature),
                 "max_tokens": parseInt(maxToken),
                 "frequency_penalty":parseFloat(freqPenalty),
@@ -742,6 +779,7 @@ function subtitlesToArticle(){
         genResultTextarea.value = '';
         localStorage.setItem("genResultTextarea", genResultTextarea.value);
         alert(reason);
+        return;
     });
 }
 

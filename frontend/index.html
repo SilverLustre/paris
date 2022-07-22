@@ -52,7 +52,7 @@
                         <div class="row">
                             <div class="col-4">Topic</div>
                             <div class="col-8">
-                                <textarea name="" id="topicTextarea" cols="30" rows="4" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
+                                <textarea name="" id="topicTextarea" cols="30" rows="3" class="circleTextarea" onkeyup='saveValue(this);'></textarea>
                                 <button class="circleButton" id="topicTextareaClrBt">Clear</button>
                             </div>
                         </div>
@@ -61,10 +61,10 @@
                             <div class="col-8">
                                 <input type="text" list="textTypeList" class="circleTextInput" id="textTypeInput" onkeyup='saveValue(this);'>
                                 <datalist id="textTypeList">
-                                    <option>Blog Post</option>
-                                    <option>Email</option>
-                                    <option>Social Media</option>
-                                    <option>Website Content</option>
+                                    <option>blog post</option>
+                                    <option>email</option>
+                                    <option>social media</option>
+                                    <option>website content</option>
                                 </datalist>
                                 <button class="circleButton" id="textTypeClrBt">Clear</button>
                             </div>
@@ -141,6 +141,13 @@
                                 <button class="circleButton" id="langClrBt">Clear</button>
                             </div>
                         </div>
+                        <!-- <div class="row">
+                            <div class="col-4">Enhanced Translation</div>
+                            <div class="col-8 automargin">
+                                <input type="checkbox" id="enhancedTransCheckBox">
+                                <label for="enhancedTransCheckBox">Better translation power, cost more.</label>
+                            </div>
+                        </div> -->
 
                     </div>
 
@@ -149,8 +156,9 @@
                     <div class="row" id="modelParamsBlock">
                         <div class="col-12"><h3>Model Parameters</h3></div>
                         <div class="row">
-                            <div class="col-4 tooltip">Model
+                            <div class="col-4 tooltip">Generation Model
                                 <span class="tooltiptextwide">
+                                    <p>This model config is for the subtitles and result generation.</p> 
                                     <table>
                                         <tr>
                                             <th>Latest Model</th>
@@ -193,12 +201,76 @@
                                 </span>
                             </div>
                             <div class="col-8">
-                                <select name="" id="modelSelect" class="circleSelect" onchange="saveValue(this);">
+                                <!-- <select name="" id="modelSelect" class="circleSelect" onchange="saveValue(this);">
                                     <option value="text-davinci-002">text-davinci-002</option>
                                     <option value="text-curie-001">text-curie-001</option>
                                     <option value="text-babbage-001">text-babbage-001</option>
                                     <option value="text-ada-001">text-ada-001</option>
-                                </select>
+                                </select> -->
+                                <input type="text" class="circleTextInput" list="genModelList" placeholder="text-davinci-002" id="genModelInput" onkeyup="saveValue(this);">
+                                <datalist id="genModelList">
+                                    <option>text-davinci-002</option>
+                                    <option>text-curie-001</option>
+                                    <option>text-babbage-001</option>
+                                    <option>text-ada-001</option>
+                                </datalist>
+                                <button class="circleButton" id="genModelInputClrBt">Clear</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 tooltip">Translation Model
+                                <span class="tooltiptextwide">
+                                    <p>This model is for translating the prompt to the target language.</p>
+                                    <table>
+                                        <tr>
+                                            <th>Latest Model</th>
+                                            <th>Description</th>
+                                            <th>Max Request</th>
+                                            <th>Training Data</th>
+                                            <th>Price</th>
+                                        </tr>
+                                        <tr>
+                                            <td>text-davinci-002</td>
+                                            <td>Most capable GPT-3 model. Can do any task the other models can do, often with less context. In addition to responding to prompts, also supports inserting completions within text.</td>
+                                            <td>4,000 tokens</td>
+                                            <td>Up to Jun 2021</td>
+                                            <td>$0.0600/1k tokens</td>
+                                        </tr>
+                                        <tr>
+                                            <td>text-curie-001</td>
+                                            <td>Very capable, but faster and lower cost than Davinci.</td>
+                                            <td>2,048 tokens</td>
+                                            <td>Up to Oct 2019</td>
+                                            <td>$0.0060/1k tokens</td>
+                                        </tr>
+                                        <tr>
+                                            <td>text-babbage-001</td>
+                                            <td>Capable of straightforward tasks, very fast, and lower cost.</td>
+                                            <td>2,048 tokens</td>
+                                            <td>Up to Oct 2019</td>
+                                            <td>$0.0012/1k tokens</td>
+                                        </tr>
+                                        <tr>
+                                            <td>text-ada-001</td>
+                                            <td>Capable of very simple tasks, usually the fastest model in the GPT-3 series, and lowest cost.</td>
+                                            <td>2,048 tokens</td>
+                                            <td>Up to Oct 2019</td>
+                                            <td>$0.0008/1k tokens</td>
+                                        </tr>
+                                    </table>
+                                    Updated: 6/July/2022
+                                    <br>Check the latest information: <a href="https://openai.com/api/pricing/">https://openai.com/api/pricing/</a>
+                                </span>
+                            </div>
+                            <div class="col-8">
+                                <input type="text" class="circleTextInput" list="transModelList" placeholder="text-davinci-002" id="transModelInput" onkeyup="saveValue(this);">
+                                <datalist id="transModelList">
+                                    <option>text-davinci-002</option>
+                                    <option>text-curie-001</option>
+                                    <option>text-babbage-001</option>
+                                    <option>text-ada-001</option>
+                                </datalist>
+                                <button class="circleButton" id="transModelInputClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
