@@ -376,6 +376,10 @@ function generateArticleTranslated(){
         alert('Prompt cannot be empty.');
         return;
     }
+    if (transModel === ''){
+        alert('You must specify the translation model.');
+        return;
+    }
     // if ((numOfSubsInput===''||numOfSubsInput===0||numOfSubsInput==='0')&&prompt.length==0){
     //     alert('Number of subtitles must be set larger than 0.');
     //     return;
@@ -486,6 +490,11 @@ promptClrBt.onclick = function(){
 var promptGenSubsBt = document.getElementById("promptGenSubsBt");
 promptGenSubsBt.onclick = function(){
     // generateSubtitles();
+    if (document.getElementById("genModelInput").value === ''){
+        alert("You must specify the generation model.")
+        return;
+    }
+
     let hasSubtitle = promptTextarea.value.toLowerCase().includes('subtitle');
     if (langInput.value !==''&&langInput.value.toLowerCase() !== 'english'&&!hasSubtitle){
         generateArticleTranslated();
@@ -502,8 +511,6 @@ promptGenSubsBt.onclick = function(){
 function subtitlesToArticleTranslated(){
     console.log("subtitlesToArticle");
     var genResultTextarea = document.getElementById("genResultTextarea");
-    genResultTextarea.value = 'Generating...';
-
     var apiKeyInput = document.getElementById('apiKeyInput').value;
     var subtitlesTextarea = document.getElementById("subtitlesTextarea");
     var subtitles = subtitlesTextarea.value.split(/\r?\n/);
@@ -524,6 +531,11 @@ function subtitlesToArticleTranslated(){
     var keywords = document.getElementById("keywordsInput").value;
     var language = document.getElementById("langInput").value;
 
+    if (transModel === ''){
+        alert('You must specify the translation model.');
+        return;
+    }
+    genResultTextarea.value = 'Generating...';
 
     // Translation
     var prompts = []
@@ -790,6 +802,11 @@ subsCpBt.onclick = function(){
 
 var subsGenArticleBt = document.getElementById("subsGenArticleBt");
 subsGenArticleBt.onclick = function(){
+    if (document.getElementById("genModelInput") === ''){
+        alert('You must specify the generation model.');
+        return;
+    }
+
     var language = document.getElementById("langInput").value;
     if (language === '' || language.toLowerCase() === 'english'){
         subtitlesToArticle();

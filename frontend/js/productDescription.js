@@ -54,9 +54,8 @@ document.getElementById("toneInput").value = getSavedValue("toneInput");
 document.getElementById("targetAudienceInput").value = getSavedValue("targetAudienceInput");
 document.getElementById("outputLanguageInput").value = getSavedValue("outputLanguageInput");
 document.getElementById("typeInput").value = getSavedValue("typeInput");
-if (localStorage.getItem("modelSelect")!==null){
-    document.getElementById("modelSelect").value = getSavedValue("modelSelect");
-}
+document.getElementById("genModelInput").value = getSavedValue("genModelInput");
+
 if (localStorage.getItem("maxTokenInput")!==null){
     document.getElementById("maxTokenInput").value = getSavedValue("maxTokenInput");
 }
@@ -123,6 +122,12 @@ var typeClrBt = document.getElementById("typeClrBt");
 typeClrBt.onclick = function(){
     document.getElementById("typeInput").value = '';
     localStorage.setItem("typeInput", '');
+}
+
+var genModelInputClrBt = document.getElementById("genModelInputClrBt");
+genModelInputClrBt.onclick = function(){
+    document.getElementById("genModelInput").value = '';
+    localStorage.setItem("genModelInput", '');
 }
 
 //Product Description Block
@@ -208,9 +213,7 @@ function generateDescription(){
     console.log('generateResult');
     var apiKeyInput = document.getElementById('apiKeyInput').value;
     var resultTextarea = document.getElementById('genResultTextarea');
-    // var numOfSubsInput = document.getElementById("numOfSubsInput").value;
-    resultTextarea.value = 'Generating...';
-    var model = document.getElementById('modelSelect').value;
+    var genModel = document.getElementById('genModelInput').value;
     var maxToken = document.getElementById('maxTokenInput').value;
     var temperature = document.getElementById('tempInput').value;
     var presencePenalty = document.getElementById('presencePenaltyInput').value;
@@ -220,6 +223,12 @@ function generateDescription(){
         alert('Prompt cannot be empty.');
         return;
     }
+    if (genModel === ''){
+        alert('You must specify the generation model.');
+        return;
+    }
+
+    resultTextarea.value = 'Generating...';
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
@@ -230,10 +239,10 @@ function generateDescription(){
                 console.log(jsonObj);
                 var resultStr = jsonObj.choices[0].text;
                 resultTextarea.value = resultStr;
-                localStorage.setItem("resultTextarea", resultTextarea.value);
+                localStorage.setItem("genResultTextarea", resultTextarea.value);
             }else if (Math.floor(this.status/100)===4){
                 resultTextarea.value = '';
-                localStorage.setItem("resultTextarea", '');
+                localStorage.setItem("genResultTextarea", '');
                 alert(this.responseText);
                 return;
             }
@@ -243,7 +252,7 @@ function generateDescription(){
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.setRequestHeader("Authorization", "Bearer " + apiKeyInput);
     xhttp.send(JSON.stringify({
-        "model": model,
+        "model": genModel,
         "temperature": parseFloat(temperature),
         "max_tokens": parseInt(maxToken),
         "frequency_penalty":parseFloat(freqPenalty),

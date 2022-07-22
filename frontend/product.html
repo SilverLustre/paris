@@ -149,7 +149,7 @@
                     <div class="row" id="modelParamsBlock">
                         <div class="col-12"><h3>Model Parameters</h3></div>
                         <div class="row">
-                            <div class="col-4 tooltip">Model
+                            <div class="col-4 tooltip">Generation Model
                                 <span class="tooltiptextwide">
                                     <table>
                                         <tr>
@@ -193,12 +193,14 @@
                                 </span>
                             </div>
                             <div class="col-8">
-                                <select name="" id="modelSelect" class="circleSelect" onchange="saveValue(this);">
-                                    <option value="text-davinci-002">text-davinci-002</option>
-                                    <option value="text-curie-001">text-curie-001</option>
-                                    <option value="text-babbage-001">text-babbage-001</option>
-                                    <option value="text-ada-001">text-ada-001</option>
-                                </select>
+                                <input type="text" class="circleTextInput" list="genModelList" placeholder="text-davinci-002" id="genModelInput" onkeyup="saveValue(this);">
+                                <datalist id="genModelList">
+                                    <option>text-davinci-002</option>
+                                    <option>text-curie-001</option>
+                                    <option>text-babbage-001</option>
+                                    <option>text-ada-001</option>
+                                </datalist>
+                                <button class="circleButton" id="genModelInputClrBt">Clear</button>
                             </div>
                         </div>
                         <div class="row">
