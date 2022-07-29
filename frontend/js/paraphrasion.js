@@ -183,7 +183,8 @@ function generatePrompt(){
       elements.push('with keywords:')
       elements.push(keywords)
     }
-    elements.push(', text:')
+    elements[elements.length-1] = elements[elements.length-1] + "," 
+    elements.push('text:')
     var promptPrefix = elements.join(' ');
 
     if(outputLanguage!==''){
